@@ -59,8 +59,8 @@ $(LIB): $(OBJ)
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(OBJ_DIR)
 	$(CC) -c $(CFLAGS) $< -o $@
 
-$(OBJ_DIR)%_profiled.o: $(SRC_DIR)%.c
-	$(CC) -c $(CFLAGS) $^ -o $@
+$(OBJ_DIR)%_profiled.o: $(SRC_DIR)%.c $(OBJ_DIR)
+	$(CC) -c $(CFLAGS) $< -o $@
 
 $(TEST_DIR)%.o: $(TEST_DIR)%.c
 	$(CC) -c $(CFLAGS) $^ -o $@

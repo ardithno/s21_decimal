@@ -11,7 +11,7 @@ default:
   tags:
     - docker
   before_script:
-    - apt-get update && apt-get -y install make gcc clang-format
+    - apt-get update && apt-get -y install check clang-format
     - cd ${PROJECT_DIR}
 
 lint:
