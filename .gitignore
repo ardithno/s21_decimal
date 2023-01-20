@@ -50,3 +50,15 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# C profile data
+*.gcda
+*.gcno
+coverage/
+coverage.info
+
+# VSCode stuff
+.vscode/
+
+# macOS garbage
+.DS_Store
