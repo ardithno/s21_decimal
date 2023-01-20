@@ -42,8 +42,8 @@ START_TEST(positive_zero_equal_negative_zero) {
 END_TEST
 
 START_TEST(same_value_decimals_is_equal) {
-  s21_decimal first = {0, 2, 4, 34};
-  s21_decimal second = {0, 2, 4, 34};
+  s21_decimal first = {{0, 2, 4, 34}};
+  s21_decimal second = {{0, 2, 4, 34}};
 
   is_equal = s21_is_equal(first, second);
 
@@ -52,8 +52,8 @@ START_TEST(same_value_decimals_is_equal) {
 END_TEST
 
 START_TEST(same_values_with_different_sign_is_not_equal) {
-  s21_decimal first = {0, 2, 4, 34};
-  s21_decimal second = {0, 2, 4, 34};
+  s21_decimal first = {{0, 2, 4, 34}};
+  s21_decimal second = {{0, 2, 4, 34}};
   s21_change_sign(&second);
 
   is_equal = s21_is_equal(first, second);

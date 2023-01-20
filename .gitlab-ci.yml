@@ -4,7 +4,6 @@ variables:
   PROJECT_DIR: "src/"
 
 stages:
-  - lint
   - tests
 
 default:
@@ -14,12 +13,8 @@ default:
     - apt-get update && apt-get -y install check clang-format
     - cd ${PROJECT_DIR}
 
-lint:
-  stage: lint
-  script:
-    - make lint
-
 tests:
   stage: tests
   script:
+    - make lint
     - make test

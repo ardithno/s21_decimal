@@ -3,14 +3,14 @@
 #include "../s21_decimal.h"
 
 START_TEST(zero_positive_decimal_return_true) {
-  s21_decimal decimal = {0};  // Zero positive decimal
+  s21_decimal decimal = S21_DECIMAL_NULL;  // Zero positive decimal
 
   ck_assert_int_eq(s21_is_zero(decimal), S21_TRUE);
 }
 END_TEST
 
 START_TEST(zero_negative_decimal_return_true) {
-  s21_decimal decimal = {0};
+  s21_decimal decimal = S21_DECIMAL_NULL;
   s21_change_sign(&decimal);
 
   ck_assert_int_eq(s21_is_zero(decimal), S21_TRUE);
@@ -18,7 +18,7 @@ START_TEST(zero_negative_decimal_return_true) {
 END_TEST
 
 START_TEST(any_non_zero_return_false) {
-  s21_decimal decimal = {34, 2, 0, 2};  // Any non null decimal should suite
+  s21_decimal decimal = {{34, 2, 0, 2}};  // Any non null decimal should suite
 
   ck_assert_int_eq(s21_is_zero(decimal), S21_FALSE);
 }
