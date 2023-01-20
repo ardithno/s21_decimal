@@ -1,0 +1,34 @@
+image: ubuntu:22.04
+
+variables:
+  PROJECT_DIR: "src/"
+
+stages:
+  - lint
+  - tests
+
+default:
+  tags:
+    - docker
+  before_script:
+    - apt-get update && apt-get -y install make gcc clang-format
+    - cd ${PROJECT_DIR}
+
+lint:
+  stage: lint
+  script:
+    - make lint
+
+tests:
+  stage: tests
+  script:
+    - make test
+    - gcovr --xml-pretty --exclude-unreachable-branches --print-summary -o coverage.xml --root ${CI_PROJECT_DIR}${PROJECT_DIR}
+  coverage: /^\s*lines:\s*\d+.\d+\%/
+  artifacts:
+    name: ${CI_JOB_NAME}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA}
+    expire_in: 2 days
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: ${PROJECT_DIR}/coverage.xml

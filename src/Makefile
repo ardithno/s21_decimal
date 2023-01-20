@@ -56,8 +56,8 @@ gcov_report: coverage_report
 $(LIB): $(OBJ)
 	$(AR) -rcs $@ $^
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c
-	$(CC) -c $(CFLAGS) $^ -o $@
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(OBJ_DIR)
+	$(CC) -c $(CFLAGS) $< -o $@
 
 $(OBJ_DIR)%_profiled.o: $(SRC_DIR)%.c
 	$(CC) -c $(CFLAGS) $^ -o $@
@@ -68,7 +68,10 @@ $(TEST_DIR)%.o: $(TEST_DIR)%.c
 $(TEST_EXEC): $(TEST_OBJ) $(OBJ_PROFILED)
 	$(CC) $(LDFLAGS) $^ -o $@ $(LDLIBS)
 
+$(OBJ_DIR):
+	mkdir -p $@
+
 clean:
-	rm -rf 	$(OBJ) $(LIB)
-	rm -rf $(TEST_OBJ) $(TEST_EXEC) $(TEST_PROFILE_DATA) $(OBJ_PROFILED)
-	rm -rf 	$(COVERAGE_FILE) $(COVERAGE_REPORT_DIR)
+	rm -rf $(OBJ_DIR) $(LIB)
+	rm -rf $(TEST_EXEC) $(TEST_OBJ) $(TEST_PROFILE_DATA)
+	rm -rf $(COVERAGE_FILE) $(COVERAGE_REPORT_DIR)
