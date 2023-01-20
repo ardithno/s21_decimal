@@ -36,9 +36,7 @@ echo:
 	@echo TEST_PROFILE_DATA=$(TEST_PROFILE_DATA)
 
 lint:
-	@cp ../materials/linters/CPPLINT.cfg .
-	@python3 ../materials/linters/cpplint.py --extension=c $(SRC_DIR)* $(TEST_DIR)*
-	@rm CPPLINT.cfg
+	@clang-format --style=Google --Werror --dry-run $(SRC_DIR)* $(TEST_DIR)* && echo "Everything fine"
 
 test: tests
 
