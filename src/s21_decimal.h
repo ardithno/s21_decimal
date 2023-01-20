@@ -31,6 +31,6 @@ int s21_from_int_to_decimal(int src, s21_decimal *dst);
 int s21_get_sign(s21_decimal decimal);
 int s21_is_equal(s21_decimal first, s21_decimal second);
 int s21_is_zero(s21_decimal decimal);
-
+int s21_negate(s21_decimal value, s21_decimal *result);
 
 #endif  // SRC_S21_MATH_H_

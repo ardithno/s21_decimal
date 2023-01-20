@@ -1,6 +1,7 @@
 #include <check.h>
 
 #include "../s21_decimal.h"
+#include "test_cases.h"
 
 int sign;
 

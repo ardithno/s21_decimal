@@ -1,8 +1,10 @@
-#include <math.h>
+#include <stddef.h>
 
 #include "../s21_decimal.h"
 
 int s21_from_int_to_decimal(int src, s21_decimal *dst) {
+  if (dst == NULL) return S21_TRUE;  // Mean error happened
+
   s21_decimal decimal = S21_DECIMAL_NULL;
 
   if (src < 0) {
@@ -13,5 +15,5 @@ int s21_from_int_to_decimal(int src, s21_decimal *dst) {
   decimal.bits[LOW] = src;
   *dst = decimal;
 
-  return 0;  // It's weird bit it's ok code according to requirements
+  return S21_FALSE;  // Mean no errors during work
 }

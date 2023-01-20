@@ -8,5 +8,6 @@ TCase *tcase_s21_from_int_to_decimal();
 TCase *tcase_s21_get_sign();
 TCase *tcase_s21_is_equal();
 TCase *tcase_s21_is_zero();
+TCase *tcase_s21_negate();
 
 #endif /* SRC_TESTS_TEST_CASES_H_ */

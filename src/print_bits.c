@@ -34,17 +34,20 @@ void print_bits(size_t size, void *value_ptr) {
 }
 
 int main() {
-  s21_decimal decimal = S21_DECIMAL_NULL;
+  unsigned int x;
+  x = INT32_MAX;
+  x += 1;
 
-  s21_change_sign(&decimal);
+  // print_bits(sizeof(unsigned int), &x);
 
-  print_bits(sizeof(decimal), &decimal);
+  // int y;
+  // y = INT32_MIN;
+  // print_bits(sizeof(int), &y);
 
-  decimal.bits[SCALE] = decimal.bits[SCALE] << 31;
-  print_bits(sizeof(decimal), &decimal);
-
-  decimal.bits[SCALE] = decimal.bits[SCALE] >> 31;
-  print_bits(sizeof(decimal), &decimal);
-
-  printf("sign=%d\n", s21_get_sign(decimal));
+  x = 23;
+  for(int i=1; i<=5; i++) {
+    x *= 10;
+    printf("x=%d\n", x);
+    print_bits(sizeof(unsigned int), &x);
+  }
 }

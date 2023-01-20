@@ -1,6 +1,7 @@
 #include <check.h>
 
 #include "../s21_decimal.h"
+#include "test_cases.h"
 
 START_TEST(zero_positive_decimal_return_true) {
   s21_decimal decimal = S21_DECIMAL_NULL;  // Zero positive decimal

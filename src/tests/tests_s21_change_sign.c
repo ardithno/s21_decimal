@@ -1,6 +1,7 @@
 #include <check.h>
 
 #include "../s21_decimal.h"
+#include "test_cases.h"
 
 START_TEST(zero_decimal_set_31_bit_to_one) {
   s21_decimal decimal = S21_DECIMAL_NULL;
