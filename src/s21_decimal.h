@@ -1,6 +1,8 @@
 #ifndef SRC_S21_DECIMAL_H_
 #define SRC_S21_DECIMAL_H_
 
+#include <stdint.h>
+
 enum S21_BOOL {
   S21_FALSE,
   S21_TRUE,
@@ -16,7 +18,7 @@ enum S21_DECIMAL_BYTE_PURPOSE {
 #define DECIMAL_PARTS_COUNT 4
 
 typedef struct s21_decimal {
-  unsigned int bits[DECIMAL_PARTS_COUNT];
+  uint32_t bits[DECIMAL_PARTS_COUNT];
 } s21_decimal;
 
 #define S21_DECIMAL_NULL {0};

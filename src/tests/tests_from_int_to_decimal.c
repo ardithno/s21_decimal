@@ -5,7 +5,7 @@
 #include "test_cases.h"
 
 START_TEST(positive_int_saved_ok) {
-  int x = 1;
+  int x = 355;
   s21_decimal decimal = S21_DECIMAL_NULL;
   s21_decimal expected = {{x, 0, 0, 0}};
 
@@ -29,7 +29,8 @@ END_TEST
 START_TEST(negative_int_saved_ok) {
   int x = -34;
   s21_decimal decimal = S21_DECIMAL_NULL;
-  s21_decimal expected = {{-x, 0, 0, 1}};  // Set `-x` negative manually
+  s21_decimal expected = {{-x, 0, 0, 0}};  // Set `-x` negative manually
+  s21_change_sign(&expected);
 
   s21_from_int_to_decimal(x, &decimal);
 
@@ -52,9 +53,8 @@ END_TEST
 
 START_TEST(negative_int_min_saved_ok) {
   s21_decimal result = S21_DECIMAL_NULL;
-  s21_decimal expected = {
-      {(unsigned int)INT32_MAX + 1, 0, 0, 1},  // last `1` is sign actually
-  };
+  s21_decimal expected = {{(uint32_t)INT32_MAX + 1, 0, 0, 0}};
+  s21_change_sign(&expected);
 
   s21_from_int_to_decimal(INT32_MIN, &result);
 

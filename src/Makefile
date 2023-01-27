@@ -42,8 +42,6 @@ test: tests
 
 tests: CFLAGS += --coverage -g
 tests: LDFLAGS += --coverage
-tests: CFLAGS += $(shell pkg-config --cflags-only-I check)
-tests: LDLIBS += $(shell pkg-config --libs check)
 tests: $(TEST_EXEC)
 	@$^
 
@@ -65,6 +63,8 @@ $(OBJ_DIR)%_profiled.o: $(SRC_DIR)%.c $(OBJ_DIR)
 $(TEST_DIR)%.o: $(TEST_DIR)%.c
 	$(CC) -c $(CFLAGS) $^ -o $@
 
+$(TEST_EXEC): CFLAGS += $(shell pkg-config --cflags-only-I check)
+$(TEST_EXEC): LDLIBS += $(shell pkg-config --libs check)
 $(TEST_EXEC): $(TEST_OBJ) $(OBJ_PROFILED)
 	$(CC) $(LDFLAGS) $^ -o $@ $(LDLIBS)
 

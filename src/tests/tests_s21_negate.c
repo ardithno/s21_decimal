@@ -52,7 +52,8 @@ END_TEST
 
 START_TEST(negate_regular_decimal_is_ok) {
   s21_decimal value = {{20, 2, 1000, 0}};
-  s21_decimal expected = {{20, 2, 1000, 1}};  // 1 in last bit is sign actually
+  s21_decimal expected = {{20, 2, 1000, 0}};
+  s21_change_sign(&expected);
   s21_decimal result = S21_DECIMAL_NULL;
 
   s21_negate(value, &result);
