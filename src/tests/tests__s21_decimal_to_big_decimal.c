@@ -49,7 +49,7 @@ END_TEST
 START_TEST(same_decimals_different_scale_converts_to_same_values) {
   s21_decimal decimal = {{0xffffffff, 0, 0, 0}};
   _s21_big_decimal big;
-  s21_decimal decimal_scale_one = {{0xfffffff6, 0x9, 0, 0x10000}}; // scale 1
+  s21_decimal decimal_scale_one = {{0xfffffff6, 0x9, 0, 0x10000}};  // scale 1
   _s21_big_decimal big_from_scale_one;
 
   _s21_decimal_to_big_decimal(&decimal, &big);

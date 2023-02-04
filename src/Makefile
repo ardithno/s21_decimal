@@ -38,6 +38,9 @@ echo:
 lint:
 	@clang-format --style=Google --Werror --dry-run $(SRC_DIR)* $(TEST_DIR)* && echo "Everything fine"
 
+fmt:
+	@clang-format --style=Google --Werror -i $(SRC_DIR)* $(TEST_DIR)* && echo "Formatted"
+
 test: tests
 
 tests: CFLAGS += --coverage -g

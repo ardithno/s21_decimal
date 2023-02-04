@@ -1,9 +1,8 @@
 #include "../s21_decimal.h"
 
 int _s21_decimal_to_big_decimal(s21_decimal const *decimal_ptr,
-                                 _s21_big_decimal *big_decimal_ptr) {
+                                _s21_big_decimal *big_decimal_ptr) {
   _s21_big_decimal big_decimal = S21_DECIMAL_NULL;
-
 
   // Fill initial big decimal bits from decimal representation
   for (int i = LOW; i <= HIGH; i++) {

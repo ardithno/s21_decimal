@@ -28,7 +28,7 @@ END_TEST
 START_TEST(negative_int_saved_ok) {
   int x = -34;
   s21_decimal decimal = S21_DECIMAL_NULL;
-  s21_decimal expected = {{-x, 0, 0, 0}}; // Set `-x` negative manually
+  s21_decimal expected = {{-x, 0, 0, 0}};  // Set `-x` negative manually
   s21_change_sign(&expected);
 
   s21_from_int_to_decimal(x, &decimal);
@@ -63,7 +63,7 @@ END_TEST
 
 START_TEST(function_return_zero_if_everything_ok) {
   s21_decimal destination = S21_DECIMAL_NULL;
-  int func_result = 999; // Any non null value as initial
+  int func_result = 999;  // Any non null value as initial
 
   func_result = s21_from_int_to_decimal(55, &destination);
 
@@ -72,7 +72,7 @@ START_TEST(function_return_zero_if_everything_ok) {
 END_TEST
 
 START_TEST(function_return_one_if_null_pointer_passed) {
-  int func_result = 999; // Any non one value as initial
+  int func_result = 999;  // Any non one value as initial
 
   func_result = s21_from_int_to_decimal(55, NULL);
 

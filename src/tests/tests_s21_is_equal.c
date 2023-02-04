@@ -6,7 +6,7 @@
 int is_equal;
 
 void setup_s21_is_equal(void) {
-  is_equal = -10; // Set equal as non valid value before any test run
+  is_equal = -10;  // Set equal as non valid value before any test run
 }
 
 START_TEST(positive_zero_equal_other_positive_zero) {
@@ -34,7 +34,7 @@ END_TEST
 START_TEST(positive_zero_equal_negative_zero) {
   s21_decimal first = S21_DECIMAL_NULL;
   s21_decimal second = S21_DECIMAL_NULL;
-  s21_change_sign(&second); // Set second as negative zero
+  s21_change_sign(&second);  // Set second as negative zero
 
   is_equal = s21_is_equal(first, second);
 
@@ -65,7 +65,7 @@ END_TEST
 
 START_TEST(same_values_different_scale_is_equal) {
   s21_decimal first = {{0, 0xffffffff, 0, 0}};
-  s21_decimal second = {{0, 0xfffe7960, 0x1869f, 0x50000}}; // scale 5
+  s21_decimal second = {{0, 0xfffe7960, 0x1869f, 0x50000}};  // scale 5
 
   is_equal = s21_is_equal(first, second);
 

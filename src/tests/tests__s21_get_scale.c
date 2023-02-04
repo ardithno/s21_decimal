@@ -4,7 +4,7 @@
 
 START_TEST(zero_scale_return_zero) {
   s21_decimal x = S21_DECIMAL_NULL;
-  uint8_t scale = 99; // Any not possible value
+  uint8_t scale = 99;  // Any not possible value
 
   scale = _s21_get_scale(&x);
 
@@ -13,8 +13,8 @@ START_TEST(zero_scale_return_zero) {
 END_TEST
 
 START_TEST(one_scale_return_one) {
-  s21_decimal x = {{0, 0, 0, 0b00000000000000010000000000000000}}; // scale 1
-  uint8_t scale = 99; // Any not possible value
+  s21_decimal x = {{0, 0, 0, 0b00000000000000010000000000000000}};  // scale 1
+  uint8_t scale = 99;  // Any not possible value
 
   scale = _s21_get_scale(&x);
 
@@ -23,8 +23,8 @@ START_TEST(one_scale_return_one) {
 END_TEST
 
 START_TEST(twenty_eight_scale_return_twenty_eight) {
-  s21_decimal x = {{0, 0, 0, 0b00000000000111000000000000000000}}; // scale 28
-  uint8_t scale = 99; // Any not possible value
+  s21_decimal x = {{0, 0, 0, 0b00000000000111000000000000000000}};  // scale 28
+  uint8_t scale = 99;  // Any not possible value
 
   scale = _s21_get_scale(&x);
 
@@ -33,8 +33,8 @@ START_TEST(twenty_eight_scale_return_twenty_eight) {
 END_TEST
 
 START_TEST(ten_scale_return_twenty_ten) {
-  s21_decimal x = {{0, 0, 0, 0b00000000000010100000000000000000}}; // scale 10
-  uint8_t scale = 99; // Any not possible value
+  s21_decimal x = {{0, 0, 0, 0b00000000000010100000000000000000}};  // scale 10
+  uint8_t scale = 99;  // Any not possible value
 
   scale = _s21_get_scale(&x);
 
@@ -43,9 +43,9 @@ START_TEST(ten_scale_return_twenty_ten) {
 END_TEST
 
 START_TEST(negative_sign_doesnt_matter) {
-  s21_decimal x = {{0, 0, 0, 0b00000000000010100000000000000000}}; // scale 10
-  s21_change_sign(&x); // set sign to negative value
-  uint8_t scale = 99;  // Any not possible value
+  s21_decimal x = {{0, 0, 0, 0b00000000000010100000000000000000}};  // scale 10
+  s21_change_sign(&x);  // set sign to negative value
+  uint8_t scale = 99;   // Any not possible value
 
   scale = _s21_get_scale(&x);
 
@@ -56,7 +56,7 @@ END_TEST
 START_TEST(any_garbage_after_scale_doesnt_matter) {
   // x with scale 10 and some garbage (one) in bits that should 0
   s21_decimal x = {{0, 0, 0, 0b00000000000010101111111111111111}};
-  uint32_t scale = 99; // Any not possible value
+  uint32_t scale = 99;  // Any not possible value
 
   scale = _s21_get_scale(&x);
 
