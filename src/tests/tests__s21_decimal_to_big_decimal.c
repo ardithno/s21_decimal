@@ -3,14 +3,14 @@
 #include "../s21_decimal.h"
 
 _s21_big_decimal big_decimal;
-int is_equal;
+int is_big_equal;
 
 void setup_test__s21_decimal_to_big_decimal(void) {
   // Set any not zero but predefined value to big_decimal
   big_decimal = (_s21_big_decimal){{900, 900, 900, 900, 900, 900, 0}};
 
   // Set equality to FALSE
-  is_equal = S21_FALSE;
+  is_big_equal = S21_FALSE;
 }
 
 START_TEST(zero_is_converted_to_big_zero) {
@@ -19,8 +19,8 @@ START_TEST(zero_is_converted_to_big_zero) {
 
   _s21_decimal_to_big_decimal(&decimal, &big_decimal);
 
-  is_equal = _s21_is_big_decimals_equal(&big_decimal, &big_zero);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_big_equal = _s21_is_big_decimals_equal(&big_decimal, &big_zero);
+  ck_assert_int_eq(is_big_equal, S21_TRUE);
 }
 END_TEST
 
@@ -30,8 +30,8 @@ START_TEST(negative_zero_is_converted_to_negative_big_zero) {
 
   _s21_decimal_to_big_decimal(&negative_zero, &big_decimal);
 
-  is_equal = _s21_is_big_decimals_equal(&big_decimal, &big_negative_zero);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_big_equal = _s21_is_big_decimals_equal(&big_decimal, &big_negative_zero);
+  ck_assert_int_eq(is_big_equal, S21_TRUE);
 }
 END_TEST
 
@@ -55,9 +55,9 @@ START_TEST(same_decimals_different_scale_converts_to_same_values) {
   _s21_decimal_to_big_decimal(&decimal, &big);
   _s21_decimal_to_big_decimal(&decimal_scale_one, &big_from_scale_one);
 
-  is_equal = _s21_is_big_decimals_equal(&big, &big_from_scale_one);
+  is_big_equal = _s21_is_big_decimals_equal(&big, &big_from_scale_one);
 
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  ck_assert_int_eq(is_big_equal, S21_TRUE);
 }
 
 TCase *tcase__s21_decimal_to_big_decimal(void) {
