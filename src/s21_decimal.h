@@ -1,6 +1,7 @@
 #ifndef SRC_S21_DECIMAL_H_
 #define SRC_S21_DECIMAL_H_
 
+#include <stddef.h>
 #include <stdint.h>
 
 enum S21_BOOL {
@@ -16,6 +17,7 @@ enum S21_DECIMAL_BYTE_PURPOSE {
 };
 
 #define DECIMAL_PARTS_COUNT 4
+#define S21_DECIMAL_MAX_SCALE 28
 
 typedef struct s21_decimal {
   uint32_t bits[DECIMAL_PARTS_COUNT];
@@ -34,5 +36,23 @@ int s21_get_sign(s21_decimal decimal);
 int s21_is_equal(s21_decimal first, s21_decimal second);
 int s21_is_zero(s21_decimal decimal);
 int s21_negate(s21_decimal value, s21_decimal *result);
+
+/* -----------------------------------------------------
+--------- Internal functions and definitions -----------
+------------------------------------------------------ */
+
+#define BIG_DECIMAL_PARTS_COUNT ((DECIMAL_PARTS_COUNT - 1) * 2 + 1)
+#define BIG_SCALE (BIG_DECIMAL_PARTS_COUNT - 1)
+
+// The structure is big enough to store any decimal scaled to zero
+typedef struct _s21_big_decimal {
+  uint32_t bits[BIG_DECIMAL_PARTS_COUNT];
+} _s21_big_decimal;
+
+uint8_t _s21_get_scale(s21_decimal const *decimal);
+int _s21_decimal_to_big_decimal(s21_decimal const *decimal,
+                                _s21_big_decimal *big_decimal_ptr);
+int _s21_is_big_decimals_equal(_s21_big_decimal const *first,
+                               _s21_big_decimal const *second);
 
 #endif  // SRC_S21_MATH_H_

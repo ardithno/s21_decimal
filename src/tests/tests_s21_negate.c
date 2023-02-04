@@ -9,7 +9,8 @@ int is_bits_equal(const s21_decimal value, const s21_decimal expected) {
   int is_equal = S21_TRUE;
 
   for (int i = 0; i < DECIMAL_PARTS_COUNT; i++) {
-    if (value.bits[i] != expected.bits[i]) is_equal = S21_FALSE;
+    if (value.bits[i] != expected.bits[i])
+      is_equal = S21_FALSE;
   }
 
   return is_equal;
@@ -20,7 +21,7 @@ START_TEST(negate_positive_zero) {
   s21_decimal expected = S21_DECIMAL_NULL;
   s21_change_sign(&expected);
 
-  s21_decimal result = {{0, 1, 2, 3}};  // Any valid but not null value suits
+  s21_decimal result = {{0, 1, 2, 3}}; // Any valid but not null value suits
   s21_negate(value, &result);
 
   ck_assert_int_eq(is_bits_equal(result, expected), S21_TRUE);
@@ -32,7 +33,7 @@ START_TEST(negate_negative_zero) {
   s21_change_sign(&value);
   s21_decimal expected = S21_DECIMAL_NULL;
 
-  s21_decimal result = {{0, 1, 2, 3}};  // Any valid but not null value suits
+  s21_decimal result = {{0, 1, 2, 3}}; // Any valid but not null value suits
   s21_negate(value, &result);
 
   ck_assert_int_eq(is_bits_equal(result, expected), S21_TRUE);

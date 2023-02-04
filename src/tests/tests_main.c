@@ -1,4 +1,3 @@
-
 #include <check.h>
 #include <stdlib.h>
 
@@ -8,6 +7,10 @@ Suite *suite_s21_decimal(void) {
   Suite *suite;
 
   suite = suite_create("Tests s21_decimal");
+  // Internal functions
+  suite_add_tcase(suite, tcase__s21_decimal_to_big_decimal());
+  suite_add_tcase(suite, tcase__s21_get_scale());
+  // User-faced functions
   suite_add_tcase(suite, tcase_s21_change_sign());
   suite_add_tcase(suite, tcase_s21_from_int_to_decimal());
   suite_add_tcase(suite, tcase_s21_get_sign());

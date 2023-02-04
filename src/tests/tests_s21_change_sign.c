@@ -1,5 +1,4 @@
 #include <check.h>
-#include <stdint.h>
 
 #include "../s21_decimal.h"
 #include "test_cases.h"
@@ -17,7 +16,7 @@ START_TEST(zero_negative_decimal_set_31_bit_to_zero) {
   s21_decimal decimal = S21_DECIMAL_NULL;
   decimal.bits[SCALE] = 1U << 31;
 
-  s21_change_sign(&decimal);  // Change sign should produce 0 in scale
+  s21_change_sign(&decimal); // Change sign should produce 0 in scale
 
   ck_assert_int_eq(decimal.bits[3], 0);
 }
@@ -25,7 +24,7 @@ END_TEST
 
 // You may want rewrite it when decimal comparing will be ready
 START_TEST(using_twice_return_original_value) {
-  s21_decimal decimal = {{20, 2, 34, 30}};  // Other bits are filled
+  s21_decimal decimal = {{20, 2, 34, 30}}; // Other bits are filled
   s21_decimal same_value_decimal = {{20, 2, 34, 30}};
 
   s21_change_sign(&decimal);

@@ -6,7 +6,7 @@
 int sign;
 
 void setup_s21_get_sign(void) {
-  sign = -10;  // Set sign as non valid value before any test run
+  sign = -10; // Set sign as non valid value before any test run
 }
 
 START_TEST(positive_zero_sign_zero) {
@@ -19,7 +19,7 @@ START_TEST(positive_zero_sign_zero) {
 END_TEST
 
 START_TEST(positive_non_zero_value_sign_zero) {
-  s21_decimal decimal = {{34, 0, 0, 0}};  // Some positive int value
+  s21_decimal decimal = {{34, 0, 0, 0}}; // Some positive int value
 
   sign = s21_get_sign(decimal);
 
@@ -38,8 +38,8 @@ START_TEST(negative_zero_sign_one) {
 END_TEST
 
 START_TEST(negative_non_zero_value_sign_one) {
-  s21_decimal decimal = {{0, 0, 34, 0}};  // Some positive int value
-  s21_change_sign(&decimal);              // Change sign to negative
+  s21_decimal decimal = {{0, 0, 34, 0}}; // Some positive int value
+  s21_change_sign(&decimal);             // Change sign to negative
 
   sign = s21_get_sign(decimal);
 

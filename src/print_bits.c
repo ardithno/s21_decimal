@@ -1,7 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <limits.h>
 #include <math.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "s21_decimal.h"
 
@@ -36,9 +37,9 @@ void print_bits(size_t size, void *value_ptr) {
 void s21_mul_int(s21_decimal *input, int multiplier) {
   s21_decimal x = *input;
 
-  u_int64_t to_sum_from_low_bits = 0;
+  uint64_t to_sum_from_low_bits = 0;
 
-  for (int i=LOW; i<=HIGH; i++) {
+  for (int i = LOW; i <= HIGH; i++) {
     uint64_t temp = x.bits[i];
     temp *= multiplier;
     temp += to_sum_from_low_bits;
@@ -51,47 +52,64 @@ void s21_mul_int(s21_decimal *input, int multiplier) {
 }
 
 int main() {
-  // unsigned int x;
-  // x = INT32_MAX;
-  // x += 1;
+  uint64_t x = 0xffffffff;
+  printf("x=%lld\n", x);
+  print_bits(sizeof(x), &x);
 
-  // print_bits(sizeof(unsigned int), &x);
+  x = x * 100000;
+  printf("x * 100000 = %lld\n", x);
+  print_bits(sizeof(x), &x);
 
-  // int y;
-  // y = INT32_MIN;
-  // print_bits(sizeof(int), &y);
+  printf("low_bits x=%x\n", (uint32_t)(x >> 32));
+  uint32_t y = (uint32_t)(x >> 32);
+  printf("low_bits y=%d\n", y);
+  printf("hig_bits y=%x\n", (uint32_t)(x << 32 >> 32));
 
-  // x = 23;
-  // for(int i=1; i<=5; i++) {
+  // uint64_t y = 0xffffffff;
+  // printf("y as bits not mul 10\n");
+  // uint32_t y_bits[2] = {y << 32 >> 32, y >> 32};
+  // print_bits(sizeof(y_bits), &y_bits);
+
+  // uint64_t temp = y_bits[0] * 10;
+  // uint8_t overflow_from_lower_bits = temp >> 32;
+  // y_bits[0] = temp << 32 >> 32;
+
+  // y_bits[1] *= 10;
+  // y_bits[1] += overflow_from_lower_bits;
+
+  // print_bits(sizeof(y_bits), &y_bits);
+
+  // printf("y_low_bits=%x\n", y_bits[0]);
+  // printf("y_high_bits=%x\n", y_bits[1]);
+
+  // s21_decimal same_decimal = {{0xffffffff, 0, 0, 0}};
+  // _s21_big_decimal converted_same;
+  // s21_decimal decimal_scale_one = {{0xfffffff6, 0x9, 0, 0x10000}};  // scale 1
+  // _s21_big_decimal converted_scale_one;
+
+  // _s21_decimal_to_big_decimal(&decimal_scale_one, &converted_scale_one);
+  // _s21_decimal_to_big_decimal(&same_decimal, &converted_same);
+
+  // printf("Not_scaled\n");
+  // print_bits(sizeof(same_decimal), &same_decimal);
+  // print_bits(sizeof(converted_same), &converted_same);
+
+  // printf("Scaled\n");
+  // print_bits(sizeof(decimal_scale_one), &decimal_scale_one);
+  // print_bits(sizeof(converted_scale_one), &converted_scale_one);
+
+  // for (int i = 1; i <= 10; i++) {
   //   x *= 10;
-  //   printf("x=%d\n", x);
-  //   print_bits(sizeof(unsigned int), &x);
+  //   print_bits(sizeof(x), &x);
   // }
+  // s21_decimal max_decimal = {{0xffffffff, 0xffffffff, 0xffffffff, 0}};
+  // _s21_big_decimal max_big_decimal = S21_DECIMAL_NULL;
 
-  // x = 15;
-  // print_bits(sizeof(unsigned int), &x);
+  // _s21_decimal_to_big_decimal(&max_decimal, &max_big_decimal);
 
-  // x += x;
-  // print_bits(sizeof(unsigned int), &x);
+  // print_bits(sizeof(max_decimal), &max_decimal);
+  // print_bits(sizeof(max_big_decimal), &max_big_decimal);
 
-  int multiplier = INT32_MAX;
 
-  s21_decimal d = {{INT32_MAX, 0, 0, 0}};
-  s21_mul_int(&d, multiplier);
-  print_bits(sizeof(s21_decimal), &d);
-  
-  uint64_t compare = INT32_MAX;
-  compare *= multiplier;
-  print_bits(sizeof(uint64_t), &compare);
 
-  // printf("uint size = %lu\n", sizeof(unsigned int));
-  // printf("uint long size = %lu\n", sizeof(unsigned long int));
-  // printf("uint long long size = %lu\n", sizeof(unsigned long long int));
-  // printf("uint long long long size = %lu\n", sizeof(unsigned long long int));
 }
-
-
-34 * 10e-4 = 0.0034
-
-
-
