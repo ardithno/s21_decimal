@@ -3,12 +3,12 @@
 #include "../s21_decimal.h"
 #include "test_cases.h"
 
-int is_bits_equal(const s21_decimal value, const s21_decimal expected) {
+int _is_bits_equal(const s21_decimal value, const s21_decimal expected) {
   // Comparing bits here because we want `bare metal` comparision
   // And `s21_is_equal` is not suites for it
   int is_equal = S21_TRUE;
 
-  for (int i = 0; i < DECIMAL_PARTS_COUNT; i++) {
+  for (int i = 0; i < DECIMAL_PARTS_LEN; i++) {
     if (value.bits[i] != expected.bits[i]) is_equal = S21_FALSE;
   }
 
@@ -23,7 +23,7 @@ START_TEST(negate_positive_zero) {
   s21_decimal result = {{0, 1, 2, 3}};  // Any valid but not null value suits
   s21_negate(value, &result);
 
-  ck_assert_int_eq(is_bits_equal(result, expected), S21_TRUE);
+  ck_assert_int_eq(_is_bits_equal(result, expected), S21_TRUE);
 }
 END_TEST
 
@@ -35,7 +35,7 @@ START_TEST(negate_negative_zero) {
   s21_decimal result = {{0, 1, 2, 3}};  // Any valid but not null value suits
   s21_negate(value, &result);
 
-  ck_assert_int_eq(is_bits_equal(result, expected), S21_TRUE);
+  ck_assert_int_eq(_is_bits_equal(result, expected), S21_TRUE);
 }
 END_TEST
 
@@ -46,7 +46,7 @@ START_TEST(double_negate_return_initial_value) {
   s21_negate(initial, &result);
   s21_negate(result, &result);
 
-  ck_assert_int_eq(is_bits_equal(result, initial), S21_TRUE);
+  ck_assert_int_eq(_is_bits_equal(result, initial), S21_TRUE);
 }
 END_TEST
 
@@ -58,7 +58,7 @@ START_TEST(negate_regular_decimal_is_ok) {
 
   s21_negate(value, &result);
 
-  ck_assert_int_eq(is_bits_equal(result, expected), S21_TRUE);
+  ck_assert_int_eq(_is_bits_equal(result, expected), S21_TRUE);
 }
 END_TEST
 

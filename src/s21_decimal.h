@@ -16,11 +16,11 @@ enum S21_DECIMAL_BYTE_PURPOSE {
   SCALE,
 };
 
-#define DECIMAL_PARTS_COUNT 4
+#define DECIMAL_PARTS_LEN 4
 #define S21_DECIMAL_MAX_SCALE 28
 
 typedef struct s21_decimal {
-  uint32_t bits[DECIMAL_PARTS_COUNT];
+  uint32_t bits[DECIMAL_PARTS_LEN];
 } s21_decimal;
 
 #define S21_DECIMAL_NULL {0};
@@ -41,12 +41,12 @@ int s21_negate(s21_decimal value, s21_decimal *result);
 --------- Internal functions and definitions -----------
 ------------------------------------------------------ */
 
-#define BIG_DECIMAL_PARTS_COUNT ((DECIMAL_PARTS_COUNT - 1) * 2 + 1)
-#define BIG_SCALE (BIG_DECIMAL_PARTS_COUNT - 1)
+#define BIG_DECIMAL_PARTS_LEN ((DECIMAL_PARTS_LEN - 1) * 2 + 1)
+#define BIG_SCALE (BIG_DECIMAL_PARTS_LEN - 1)
 
 // The structure is big enough to store any decimal scaled to zero
 typedef struct _s21_big_decimal {
-  uint32_t bits[BIG_DECIMAL_PARTS_COUNT];
+  uint32_t bits[BIG_DECIMAL_PARTS_LEN];
 } _s21_big_decimal;
 
 int _s21_compare_big_decimals(_s21_big_decimal const *first,
