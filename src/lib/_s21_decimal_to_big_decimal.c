@@ -13,7 +13,7 @@ int _s21_decimal_to_big_decimal(s21_decimal const *decimal_ptr,
   big_decimal.bits[BIG_SCALE] = decimal_ptr->bits[SCALE] & 0x80000000;
 
   uint8_t power_of_ten = S21_DECIMAL_MAX_SCALE - _s21_get_scale(decimal_ptr);
-  uint8_t overflow_from_lower_bits = 0;  // It's enough for multiply to 10
+  uint8_t overflow_from_lower_bits = 0;  // It's enough for multiply by 10
 
   while (power_of_ten-- != 0) {
     for (int i = LOW; i < BIG_SCALE; i++) {

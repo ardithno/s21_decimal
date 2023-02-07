@@ -13,5 +13,6 @@ int s21_is_equal(s21_decimal first, s21_decimal second) {
   _s21_decimal_to_big_decimal(&first, &big_first);
   _s21_decimal_to_big_decimal(&second, &big_second);
 
-  return _s21_is_big_decimals_equal(&big_first, &big_second);
+  return (_s21_compare_big_decimals(&big_first, &big_second) == 0) ? S21_TRUE
+                                                                   : S21_FALSE;
 }

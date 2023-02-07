@@ -9,8 +9,14 @@ void setup_test__s21_decimal_to_big_decimal(void) {
   // Set any not zero but predefined value to big_decimal
   big_decimal = (_s21_big_decimal){{900, 900, 900, 900, 900, 900, 0}};
 
-  // Set equality to FALSE
-  is_big_equal = S21_FALSE;
+  // Set equality to any non zero
+  is_big_equal = 999;
+}
+
+int _is_two_big_decimals_equal(_s21_big_decimal const *first_ptr,
+                               _s21_big_decimal const *second_ptr) {
+  return (_s21_compare_big_decimals(first_ptr, second_ptr) == 0) ? S21_TRUE
+                                                                 : S21_FALSE;
 }
 
 START_TEST(zero_is_converted_to_big_zero) {
@@ -19,7 +25,7 @@ START_TEST(zero_is_converted_to_big_zero) {
 
   _s21_decimal_to_big_decimal(&decimal, &big_decimal);
 
-  is_big_equal = _s21_is_big_decimals_equal(&big_decimal, &big_zero);
+  is_big_equal = _is_two_big_decimals_equal(&big_decimal, &big_zero);
   ck_assert_int_eq(is_big_equal, S21_TRUE);
 }
 END_TEST
@@ -30,7 +36,7 @@ START_TEST(negative_zero_is_converted_to_negative_big_zero) {
 
   _s21_decimal_to_big_decimal(&negative_zero, &big_decimal);
 
-  is_big_equal = _s21_is_big_decimals_equal(&big_decimal, &big_negative_zero);
+  is_big_equal = _is_two_big_decimals_equal(&big_decimal, &big_negative_zero);
   ck_assert_int_eq(is_big_equal, S21_TRUE);
 }
 END_TEST
@@ -55,7 +61,7 @@ START_TEST(same_decimals_different_scale_converts_to_same_values) {
   _s21_decimal_to_big_decimal(&decimal, &big);
   _s21_decimal_to_big_decimal(&decimal_scale_one, &big_from_scale_one);
 
-  is_big_equal = _s21_is_big_decimals_equal(&big, &big_from_scale_one);
+  is_big_equal = _is_two_big_decimals_equal(&big, &big_from_scale_one);
 
   ck_assert_int_eq(is_big_equal, S21_TRUE);
 }

@@ -22,7 +22,7 @@
 | 🔴 | Меньше или равно | <= | int s21_is_less_or_equal(s21_decimal, s21_decimal) |
 | 🔴 | Больше | \> |  int s21_is_greater(s21_decimal, s21_decimal) |
 | 🔴 | Больше или равно | \>= | int s21_is_greater_or_equal(s21_decimal, s21_decimal) |
-| 🟠 | Равно | == |  int s21_is_equal(s21_decimal, s21_decimal) |
+| 🟢 | Равно | == |  int s21_is_equal(s21_decimal, s21_decimal) |
 | 🔴 | Не равно | != |  int s21_is_not_equal(s21_decimal, s21_decimal) |
 
 Возвращаемое значение:

@@ -49,10 +49,11 @@ typedef struct _s21_big_decimal {
   uint32_t bits[BIG_DECIMAL_PARTS_COUNT];
 } _s21_big_decimal;
 
-uint8_t _s21_get_scale(s21_decimal const *decimal);
+int _s21_compare_big_decimals(_s21_big_decimal const *first,
+                               _s21_big_decimal const *second);
 int _s21_decimal_to_big_decimal(s21_decimal const *decimal,
                                 _s21_big_decimal *big_decimal_ptr);
-int _s21_is_big_decimals_equal(_s21_big_decimal const *first,
-                               _s21_big_decimal const *second);
+uint8_t _s21_get_scale(s21_decimal const *decimal);
+int _s21_get_big_decimal_sign(_s21_big_decimal const *big_decimal);
 
 #endif  // SRC_S21_MATH_H_

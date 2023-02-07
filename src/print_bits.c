@@ -52,19 +52,11 @@ void s21_mul_int(s21_decimal *input, int multiplier) {
 }
 
 int main() {
-  uint64_t x = 0xffffffff;
-  printf("x=%lld\n", x);
+  s21_decimal x = {.bits = {1, 2, 3, 655360}};
+  s21_decimal y = {.bits = {1, 2, 3, -2146828288}};
+
   print_bits(sizeof(x), &x);
-
-  x = x * 100000;
-  printf("x * 100000 = %lld\n", x);
-  print_bits(sizeof(x), &x);
-
-  printf("low_bits x=%x\n", (uint32_t)(x >> 32));
-  uint32_t y = (uint32_t)(x >> 32);
-  printf("low_bits y=%d\n", y);
-  printf("hig_bits y=%x\n", (uint32_t)(x << 32 >> 32));
-
+  print_bits(sizeof(y), &y);
   // uint64_t y = 0xffffffff;
   // printf("y as bits not mul 10\n");
   // uint32_t y_bits[2] = {y << 32 >> 32, y >> 32};
