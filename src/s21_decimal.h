@@ -56,4 +56,4 @@ int _s21_decimal_to_big_decimal(s21_decimal const *decimal,
 uint8_t _s21_get_scale(s21_decimal const *decimal);
 int _s21_get_big_decimal_sign(_s21_big_decimal const *big_decimal);
 
-#endif  // SRC_S21_MATH_H_
+#endif  // SRC_S21_DECIMAL_H_

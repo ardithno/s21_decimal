@@ -52,56 +52,9 @@ void s21_mul_int(s21_decimal *input, int multiplier) {
 }
 
 int main() {
-  s21_decimal x = {.bits = {1, 2, 3, 655360}};
-  s21_decimal y = {.bits = {1, 2, 3, -2146828288}};
+  _s21_big_decimal x = {.bits={1, 0, 0, 0, 0, 0, 0x80000000}};
+  _s21_big_decimal y = {.bits={0, 1, 0, 0, 0, 0, 0x80000000}};;
 
-  print_bits(sizeof(x), &x);
-  print_bits(sizeof(y), &y);
-  // uint64_t y = 0xffffffff;
-  // printf("y as bits not mul 10\n");
-  // uint32_t y_bits[2] = {y << 32 >> 32, y >> 32};
-  // print_bits(sizeof(y_bits), &y_bits);
-
-  // uint64_t temp = y_bits[0] * 10;
-  // uint8_t overflow_from_lower_bits = temp >> 32;
-  // y_bits[0] = temp << 32 >> 32;
-
-  // y_bits[1] *= 10;
-  // y_bits[1] += overflow_from_lower_bits;
-
-  // print_bits(sizeof(y_bits), &y_bits);
-
-  // printf("y_low_bits=%x\n", y_bits[0]);
-  // printf("y_high_bits=%x\n", y_bits[1]);
-
-  // s21_decimal same_decimal = {{0xffffffff, 0, 0, 0}};
-  // _s21_big_decimal converted_same;
-  // s21_decimal decimal_scale_one = {{0xfffffff6, 0x9, 0, 0x10000}};  // scale 1
-  // _s21_big_decimal converted_scale_one;
-
-  // _s21_decimal_to_big_decimal(&decimal_scale_one, &converted_scale_one);
-  // _s21_decimal_to_big_decimal(&same_decimal, &converted_same);
-
-  // printf("Not_scaled\n");
-  // print_bits(sizeof(same_decimal), &same_decimal);
-  // print_bits(sizeof(converted_same), &converted_same);
-
-  // printf("Scaled\n");
-  // print_bits(sizeof(decimal_scale_one), &decimal_scale_one);
-  // print_bits(sizeof(converted_scale_one), &converted_scale_one);
-
-  // for (int i = 1; i <= 10; i++) {
-  //   x *= 10;
-  //   print_bits(sizeof(x), &x);
-  // }
-  // s21_decimal max_decimal = {{0xffffffff, 0xffffffff, 0xffffffff, 0}};
-  // _s21_big_decimal max_big_decimal = S21_DECIMAL_NULL;
-
-  // _s21_decimal_to_big_decimal(&max_decimal, &max_big_decimal);
-
-  // print_bits(sizeof(max_decimal), &max_decimal);
-  // print_bits(sizeof(max_big_decimal), &max_big_decimal);
-
-
-
+  int result = _s21_compare_big_decimals(&x, &y);
+  printf("result=%d\n", result);
 }

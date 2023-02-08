@@ -12,7 +12,7 @@ int _s21_compare_big_decimals(_s21_big_decimal const *first,
 
   int bits_compare = 0;
 
-  for (int i = BIG_DECIMAL_PARTS_LEN - 1; i >= 0; i--) {
+  for (int i = BIG_DECIMAL_PARTS_LEN - 2; i >= 0; i--) {
     if (first->bits[i] != second->bits[i]) {
       bits_compare = (second->bits[i] > first->bits[i]) ? 1 : -1;
       break;
@@ -52,7 +52,7 @@ int _s21_compare_big_decimals(_s21_big_decimal const *first,
     if (first_sign == second_sign && first_sign == 0) result = bits_compare;
 
     // Same signs, first is negative
-    if (first_sign == second_sign && first_sign == -1) result = -bits_compare;
+    if (first_sign == second_sign && first_sign == 1) result = -bits_compare;
   }
 
   return result;
