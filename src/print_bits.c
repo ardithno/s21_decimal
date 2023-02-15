@@ -6,33 +6,34 @@
 
 #include "s21_decimal.h"
 
-void print_bits(size_t size, void *value_ptr) {
-  // Assume we work with little endian
-  char byte_bits;
-  unsigned char *value_as_bytes;
+// void print_bits(size_t size, void *value_ptr) {
+//   // Assume we work with little endian
+//   char byte_bits;
+//   unsigned char *value_as_bytes;
 
-  value_as_bytes = (unsigned char *)value_ptr;
+//   value_as_bytes = (unsigned char *)value_ptr;
 
-  for (size_t byte_number = size; byte_number > 0; byte_number--) {
-    printf("   ");
-    byte_bits = value_as_bytes[byte_number - 1];
+//   for (size_t byte_number = size; byte_number > 0; byte_number--) {
+//     // printf("   ");
+//     byte_bits = value_as_bytes[byte_number - 1];
 
-    for (char bit_number = 7; bit_number >= 0; bit_number--) {
-      char bit_value;
-      bit_value = (byte_bits >> bit_number) & 1;
-      printf("%d", bit_value);
-    }
-    printf(" ");
-  }
-  printf("\n");
+//     for (char bit_number = 7; bit_number >= 0; bit_number--) {
+//       char bit_value;
+//       bit_value = (byte_bits >> bit_number) & 1;
+//       printf("%d", bit_value);
+//     }
 
-  for (size_t byte_number = size; byte_number > 0; byte_number--) {
-    printf("%11p", value_as_bytes + byte_number - 1);
+//     printf(" ");
+//     if ((byte_number - 1) % 4 == 0 && (byte_number - 1) != 0) printf("| ");
+//   }
+//   printf("\n");
 
-    if (byte_number != 0) printf(" ");
-  }
-  printf("\n");
-}
+//   // for (size_t byte_number = size; byte_number > 0; byte_number--) {
+//     // printf("%11p", value_as_bytes + byte_number - 1);
+//     // if (byte_number != 0) printf(" ");
+//   // }
+//   // printf("\n");
+// }
 
 void s21_mul_int(s21_decimal *input, int multiplier) {
   s21_decimal x = *input;
@@ -52,9 +53,18 @@ void s21_mul_int(s21_decimal *input, int multiplier) {
 }
 
 int main() {
-  _s21_big_decimal x = {.bits={1, 0, 0, 0, 0, 0, 0x80000000}};
-  _s21_big_decimal y = {.bits={0, 1, 0, 0, 0, 0, 0x80000000}};;
+  s21_decimal x = {.bits={0xffffffff, 0xffffffff, 0xffffffff, 0}};
+  print_bits(sizeof(x), &x);
 
-  int result = _s21_compare_big_decimals(&x, &y);
-  printf("result=%d\n", result);
+  s21_decimal y = S21_DECIMAL_NULL;
+
+  _s21_big_decimal x_big = S21_DECIMAL_NULL;
+
+  _s21_decimal_to_big_decimal(&x, &x_big);
+
+  printf("\n");
+
+  _s21_big_decimal_to_decimal(&x_big, &y);
+
+  print_bits(sizeof(y), &y);
 }
