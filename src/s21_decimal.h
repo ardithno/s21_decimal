@@ -36,6 +36,10 @@ int s21_get_sign(s21_decimal decimal);
 int s21_is_equal(s21_decimal first, s21_decimal second);
 int s21_is_zero(s21_decimal decimal);
 int s21_negate(s21_decimal value, s21_decimal *result);
+int s21_is_not_equal(s21_decimal first, s21_decimal second);
+int s21_is_less(s21_decimal first, s21_decimal second);
+int s21_is_less_or_equal(s21_decimal first, s21_decimal second);
+int s21_is_greater(s21_decimal first, s21_decimal second);
 
 /* -----------------------------------------------------
 --------- Internal functions and definitions -----------

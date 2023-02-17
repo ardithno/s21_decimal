@@ -106,8 +106,8 @@ START_TEST(two_positive_is_equal) {
 }
 END_TEST
 
-TCase* tcase__s21_compare_big_decimals(void) {
-  TCase* tc;
+TCase *tcase__s21_compare_big_decimals(void) {
+  TCase *tc;
 
   tc = tcase_create("Tests for comparing big decimals");
 

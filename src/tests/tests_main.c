@@ -20,6 +20,10 @@ Suite *suite_s21_decimal(void) {
   suite_add_tcase(suite, tcase_s21_is_equal());
   suite_add_tcase(suite, tcase_s21_is_zero());
   suite_add_tcase(suite, tcase_s21_negate());
+  suite_add_tcase(suite, tcase_s21_is_not_equal());
+  suite_add_tcase(suite, tcase_s21_is_less());
+  suite_add_tcase(suite, tcase_s21_is_less_or_equal());
+  suite_add_tcase(suite, tcase_s21_is_greater());
 
   return suite;
 }

@@ -12,5 +12,9 @@ TCase *tcase_s21_get_sign();
 TCase *tcase_s21_is_equal();
 TCase *tcase_s21_is_zero();
 TCase *tcase_s21_negate();
+TCase *tcase_s21_is_not_equal();
+TCase *tcase_s21_is_less();
+TCase *tcase_s21_is_less_or_equal();
+TCase *tcase_s21_is_greater();
 
 #endif /* SRC_TESTS_TEST_CASES_H_ */
