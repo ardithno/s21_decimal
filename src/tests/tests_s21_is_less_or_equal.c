@@ -70,7 +70,7 @@ END_TEST
 
 START_TEST(same_value_different_scale_first_less) {
   s21_decimal first = {.bits = {60, 56, 134, 0x80000}};
-  s21_decimal second = {.bits = {60, 56, 134, 0x8000}};
+  s21_decimal second = {.bits = {60, 56, 134, 0x1000}};
 
   is_less_or_equal = s21_is_less_or_equal(first, second);
 
