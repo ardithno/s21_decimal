@@ -24,7 +24,7 @@ Suite *suite_s21_decimal(void) {
   suite_add_tcase(suite, tcase_s21_is_less());
   suite_add_tcase(suite, tcase_s21_is_less_or_equal());
   suite_add_tcase(suite, tcase_s21_is_greater());
-
+  suite_add_tcase(suite, tcase_s21_is_greater_or_equal());
   return suite;
 }
 

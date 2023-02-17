@@ -16,5 +16,6 @@ TCase *tcase_s21_is_not_equal();
 TCase *tcase_s21_is_less();
 TCase *tcase_s21_is_less_or_equal();
 TCase *tcase_s21_is_greater();
+TCase *tcase_s21_is_greater_or_equal();
 
 #endif /* SRC_TESTS_TEST_CASES_H_ */
