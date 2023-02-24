@@ -9,6 +9,7 @@ Suite *suite_s21_decimal(void) {
   suite = suite_create("Tests s21_decimal");
 
   // Internal functions
+  suite_add_tcase(suite, tcase__s21_big_decimal_shift_left());
   suite_add_tcase(suite, tcase__s21_compare_big_decimals());
   suite_add_tcase(suite, tcase__s21_decimal_to_big_decimal());
   suite_add_tcase(suite, tcase__s21_get_scale());

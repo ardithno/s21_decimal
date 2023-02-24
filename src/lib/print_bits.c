@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "../s21_decimal.h"
 
 void print_bits(size_t size, void *value_ptr) {

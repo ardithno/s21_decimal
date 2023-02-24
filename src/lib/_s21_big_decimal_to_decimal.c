@@ -37,22 +37,6 @@ _s21_big_decimal _big_decimal_shift_right(
   return big_decimal;
 }
 
-void _big_decimal_shift_left(_s21_big_decimal *big_decimal_ptr) {
-  // Shift big_decimal_ptr value bits to left once
-
-  uint8_t bit_from_lower_word = 0;
-
-  for (int i = LOW; i < BIG_SCALE; i++) {
-    uint64_t temp = big_decimal_ptr->bits[i];
-
-    temp <<= 1;
-    temp |= bit_from_lower_word;
-    bit_from_lower_word = (uint8_t)(temp >> 32);
-
-    big_decimal_ptr->bits[i] = (uint32_t)(temp & 0xffffffff);
-  }
-}
-
 _s21_big_decimal _sub_big_decimal(_s21_big_decimal minuend,
                                   _s21_big_decimal subtrahend) {
   _s21_big_decimal big_result = S21_DECIMAL_NULL;
@@ -87,8 +71,8 @@ uint32_t s21_div_big_decimal(_s21_big_decimal const *dividend_ptr,
   //
   // 1. Find the quotient, which is the largest value equal to the divisor
   //    raised to the power of 2 that is less than or equal to the dividend.
-  // 2. The exponent of 2 to which the divisor must be raised equals the bit
-  //    in the result that has a value of 1.
+  // 2. The exponent of 2 to which the divisor must be raised to get quotient
+  //    equals the bit number with value of 1 in the result.
   // 3. Subtract the quotient from the dividend.
   // 4. Repeat until the divisor is greater than the dividend."
 
@@ -106,7 +90,7 @@ uint32_t s21_div_big_decimal(_s21_big_decimal const *dividend_ptr,
       result_bit_num_to_set_one++;
 
       _s21_big_decimal temp = quotient;
-      _big_decimal_shift_left(&temp);
+      _s21_big_decimal_shift_left(&temp);
 
       compare = _s21_compare_big_decimals(&temp, &dividend);
       quotient = (compare == -1) ? quotient : temp;
@@ -154,8 +138,6 @@ int _s21_big_decimal_to_decimal(_s21_big_decimal const *big_decimal_ptr,
       scale++;
       big = temp_result;
     }
-
-    print_bits(sizeof(big), &big);
   }
 
   *decimal_ptr = _s21_convert_suitable_big_decimal_to_decimal(&big, 28 - scale);

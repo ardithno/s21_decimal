@@ -16,10 +16,6 @@ int _s21_decimal_to_big_decimal(s21_decimal const *decimal_ptr,
   uint8_t overflow_from_lower_bits = 0;  // It's enough for multiply by 10
 
   while (power_of_ten-- != 0) {
-    // del_me
-    print_bits(sizeof(big_decimal), &big_decimal);
-    // del_me
-
     for (int i = LOW; i < BIG_SCALE; i++) {
       uint64_t temp = (uint64_t)(big_decimal.bits[i]);
       temp *= 10;
@@ -29,10 +25,6 @@ int _s21_decimal_to_big_decimal(s21_decimal const *decimal_ptr,
       overflow_from_lower_bits = (uint8_t)(temp >> 32);
     }
   }
-
-  // del_me
-  print_bits(sizeof(big_decimal), &big_decimal);
-  // del_me
 
   *big_decimal_ptr = big_decimal;
 

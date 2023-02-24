@@ -43,11 +43,11 @@ fmt:
 
 test: tests
 
-tests: CFLAGS += --coverage -g
-tests: LDFLAGS += --coverage
 tests: $(TEST_EXEC)
 	@$^
 
+coverage_report: CFLAGS += --coverage -g
+coverage_report: LDFLAGS += --coverage
 coverage_report: tests
 	lcov --capture --directory $(OBJ_DIR) --output-file $(COVERAGE_FILE)
 

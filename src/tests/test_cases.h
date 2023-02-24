@@ -3,6 +3,7 @@
 
 #include <check.h>
 
+TCase *tcase__s21_big_decimal_shift_left();
 TCase *tcase__s21_compare_big_decimals();
 TCase *tcase__s21_decimal_to_big_decimal();
 TCase *tcase__s21_get_scale();
