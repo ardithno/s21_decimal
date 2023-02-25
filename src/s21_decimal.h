@@ -49,6 +49,8 @@ typedef struct _s21_big_decimal {
   uint32_t bits[BIG_DECIMAL_PARTS_LEN];
 } _s21_big_decimal;
 
+_s21_big_decimal _s21_big_decimal_add(const _s21_big_decimal *first_ptr,
+                                      const _s21_big_decimal *second_ptr);
 void _s21_big_decimal_change_sign(_s21_big_decimal *big_decimal_ptr);
 int _s21_big_decimal_compare_bits(_s21_big_decimal const *first,
                                   _s21_big_decimal const *second);

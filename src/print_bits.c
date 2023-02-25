@@ -64,9 +64,9 @@ int main() {
 
   print_bits(sizeof(result), &result);
 
-  int x = 0x01000000;
-  int y = 0x0000ffff;
-  int z = y - x;
+  int x = 0x000000ff;
+  int y = 0x000000ff;
+  int z = y + x;
 
   print_bits(sizeof(x), &x);
   print_bits(sizeof(y), &y);

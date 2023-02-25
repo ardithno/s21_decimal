@@ -34,15 +34,18 @@ _s21_big_decimal _s21_big_decimal_sub(const _s21_big_decimal *minuend_ptr,
 
   int minuend_sign = _s21_big_decimal_get_sign(minuend_ptr);
   int subtrahend_sign = _s21_big_decimal_get_sign(subtrahend_ptr);
-  int bits_compare = _s21_big_decimal_compare_bits(minuend_ptr, subtrahend_ptr);
 
   // If signs differs we should use `add` instead
   if (minuend_sign != subtrahend_sign) {
-    // Please call add function here
+    _s21_big_decimal temp = *subtrahend_ptr;
+    _s21_big_decimal_change_sign(&temp);
+    big_result = _s21_big_decimal_add(minuend_ptr, &temp);
   }
 
   // If signs the same we could do subtraction
   if (minuend_sign == subtrahend_sign) {
+    int bits_compare;
+    bits_compare = _s21_big_decimal_compare_bits(minuend_ptr, subtrahend_ptr);
     if (bits_compare == -1) {
       big_result = _s21_bits_sub(minuend_ptr, subtrahend_ptr);
     } else if (bits_compare == 1) {
