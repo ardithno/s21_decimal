@@ -16,47 +16,6 @@ int _is_extra_bits_not_empty(_s21_big_decimal *big_decimal_ptr) {
   return (num_empty_bits != BIG_SCALE - SCALE) ? S21_TRUE : S21_FALSE;
 }
 
-_s21_big_decimal _big_decimal_shift_right(
-    _s21_big_decimal const *big_decimal_ptr, uint8_t shift_count) {
-  // Shift big_decimal value bits to right `shift_count` times
-  // `shift_count` has to be less or equal than 32
-
-  _s21_big_decimal big_decimal = *big_decimal_ptr;
-  uint32_t bits_from_upper_word = 0;
-
-  for (int i = BIG_SCALE - 1; i >= LOW; i--) {
-    uint64_t temp = big_decimal.bits[i];
-
-    big_decimal.bits[i] >>= shift_count;
-    big_decimal.bits[i] |= bits_from_upper_word;
-
-    temp <<= (32 - shift_count);
-    bits_from_upper_word = (uint32_t)(temp & 0xffffffff);
-  }
-
-  return big_decimal;
-}
-
-_s21_big_decimal _sub_big_decimal(_s21_big_decimal minuend,
-                                  _s21_big_decimal subtrahend) {
-  _s21_big_decimal big_result = S21_DECIMAL_NULL;
-
-  for (int i = LOW; i < BIG_SCALE; i++) {
-    uint64_t temp = 0x100000000 | minuend.bits[i];
-    temp -= subtrahend.bits[i];
-
-    big_result.bits[i] = (uint32_t)(temp & 0xffffffff);
-
-    for (int j = i + 1; temp >> 32 == 0; j++) {
-      temp = 0x100000000 | minuend.bits[j];
-      temp -= 1;
-      minuend.bits[j] = (uint32_t)(temp & 0xffffffff);
-    }
-  }
-
-  return big_result;
-}
-
 void s21_set_big_decimal_bit(_s21_big_decimal *big_ptr, uint8_t bit_num) {
   uint8_t word_num = bit_num / 32;
   uint8_t bit_in_word_num = bit_num % 32;
@@ -80,11 +39,11 @@ uint32_t s21_div_big_decimal(_s21_big_decimal const *dividend_ptr,
   _s21_big_decimal divisor = *divisor_ptr;
   _s21_big_decimal result = S21_DECIMAL_NULL;
 
-  while (_s21_compare_big_decimals(&divisor, &dividend) != -1) {
+  while (_s21_big_decimal_compare(&divisor, &dividend) != -1) {
     _s21_big_decimal quotient = divisor;
     uint8_t result_bit_num_to_set_one = 0;
 
-    int compare = _s21_compare_big_decimals(&quotient, &dividend);
+    int compare = _s21_big_decimal_compare(&quotient, &dividend);
 
     while (compare != -1) {
       result_bit_num_to_set_one++;
@@ -92,11 +51,11 @@ uint32_t s21_div_big_decimal(_s21_big_decimal const *dividend_ptr,
       _s21_big_decimal temp = quotient;
       _s21_big_decimal_shift_left(&temp);
 
-      compare = _s21_compare_big_decimals(&temp, &dividend);
+      compare = _s21_big_decimal_compare(&temp, &dividend);
       quotient = (compare == -1) ? quotient : temp;
     }
 
-    dividend = _sub_big_decimal(dividend, quotient);
+    dividend = _s21_big_decimal_sub(&dividend, &quotient);
 
     if (result_bit_num_to_set_one != 0) {
       s21_set_big_decimal_bit(&result, result_bit_num_to_set_one - 1);

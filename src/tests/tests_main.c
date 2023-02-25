@@ -9,8 +9,9 @@ Suite *suite_s21_decimal(void) {
   suite = suite_create("Tests s21_decimal");
 
   // Internal functions
+  suite_add_tcase(suite, tcase__s21_big_decimal_compare());
   suite_add_tcase(suite, tcase__s21_big_decimal_shift_left());
-  suite_add_tcase(suite, tcase__s21_compare_big_decimals());
+  suite_add_tcase(suite, tcase__s21_big_decimal_sub());
   suite_add_tcase(suite, tcase__s21_decimal_to_big_decimal());
   suite_add_tcase(suite, tcase__s21_get_scale());
 
@@ -30,6 +31,8 @@ int main(void) {
   SRunner *sr;
 
   sr = srunner_create(suite_s21_decimal());
+
+  srunner_set_fork_status(sr, CK_NOFORK);
 
   srunner_run_all(sr, CK_NORMAL);
   number_failed = srunner_ntests_failed(sr);

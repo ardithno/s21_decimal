@@ -9,7 +9,7 @@ START_TEST(test_shift_left_zero_untouched) {
 
   _s21_big_decimal_shift_left(&big);
 
-  is_equal = _s21_compare_big_decimals(&big, &null);
+  is_equal = _s21_big_decimal_compare(&big, &null);
   ck_assert_int_eq(is_equal, 0);
 }
 END_TEST
@@ -21,7 +21,7 @@ START_TEST(test_negative_zero_shift_left_zero_untouched) {
 
   _s21_big_decimal_shift_left(&big);
 
-  is_equal = _s21_compare_big_decimals(&big, &neg_null);
+  is_equal = _s21_big_decimal_compare(&big, &neg_null);
   ck_assert_int_eq(is_equal, 0);
 }
 END_TEST
@@ -33,7 +33,7 @@ START_TEST(test_shift_regular_case) {
 
   _s21_big_decimal_shift_left(&big);
 
-  is_equal = _s21_compare_big_decimals(&big, &expected);
+  is_equal = _s21_big_decimal_compare(&big, &expected);
   ck_assert_int_eq(is_equal, 0);
 }
 END_TEST
@@ -45,7 +45,7 @@ START_TEST(test_shifting_with_overflow) {
 
   _s21_big_decimal_shift_left(&big);
 
-  is_equal = _s21_compare_big_decimals(&big, &expected);
+  is_equal = _s21_big_decimal_compare(&big, &expected);
   ck_assert_int_eq(is_equal, 0);
 }
 END_TEST

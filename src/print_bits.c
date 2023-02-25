@@ -53,18 +53,23 @@ void s21_mul_int(s21_decimal *input, int multiplier) {
 }
 
 int main() {
-  s21_decimal x = {.bits={0xffffffff, 0xffffffff, 0xffffffff, 0}};
+  s21_decimal d_max = {.bits={0xffffffff, 0xffffffff, 0xffffffff, 0}};
+  _s21_big_decimal bdx_max = S21_DECIMAL_NULL;
+  _s21_big_decimal bdy_max = S21_DECIMAL_NULL;
+
+  _s21_decimal_to_big_decimal(&d_max, &bdx_max);
+  _s21_decimal_to_big_decimal(&d_max, &bdy_max);
+
+  _s21_big_decimal result = _s21_big_decimal_sub(&bdx_max, &bdy_max);
+
+  print_bits(sizeof(result), &result);
+
+  int x = 0x01000000;
+  int y = 0x0000ffff;
+  int z = y - x;
+
   print_bits(sizeof(x), &x);
-
-  s21_decimal y = S21_DECIMAL_NULL;
-
-  _s21_big_decimal x_big = S21_DECIMAL_NULL;
-
-  _s21_decimal_to_big_decimal(&x, &x_big);
-
-  printf("\n");
-
-  _s21_big_decimal_to_decimal(&x_big, &y);
-
   print_bits(sizeof(y), &y);
+  print_bits(sizeof(z), &z);
+
 }

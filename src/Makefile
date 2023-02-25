@@ -43,6 +43,7 @@ fmt:
 
 test: tests
 
+tests: CFLAGS += -g
 tests: $(TEST_EXEC)
 	@$^
 

@@ -15,8 +15,8 @@ void setup_test__s21_decimal_to_big_decimal(void) {
 
 int _is_two_big_decimals_equal(_s21_big_decimal const *first_ptr,
                                _s21_big_decimal const *second_ptr) {
-  return (_s21_compare_big_decimals(first_ptr, second_ptr) == 0) ? S21_TRUE
-                                                                 : S21_FALSE;
+  return (_s21_big_decimal_compare(first_ptr, second_ptr) == 0) ? S21_TRUE
+                                                                : S21_FALSE;
 }
 
 START_TEST(zero_is_converted_to_big_zero) {

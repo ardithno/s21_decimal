@@ -1,13 +1,13 @@
 #include "../s21_decimal.h"
 
-int _s21_compare_big_decimals(_s21_big_decimal const *first,
-                              _s21_big_decimal const *second) {
+int _s21_big_decimal_compare(_s21_big_decimal const *first,
+                             _s21_big_decimal const *second) {
   // Return -1, 0, or 1
   // if first bigger than second return -1
   // if first equal second return 0
   // if first less than second return 1
-  int first_sign = _s21_get_big_decimal_sign(first);
-  int second_sign = _s21_get_big_decimal_sign(second);
+  int first_sign = _s21_big_decimal_get_sign(first);
+  int second_sign = _s21_big_decimal_get_sign(second);
   int num_zero_bits = 0;
 
   int bits_compare = 0;
