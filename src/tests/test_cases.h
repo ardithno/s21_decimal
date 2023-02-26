@@ -7,6 +7,7 @@ TCase *tcase__s21_big_decimal_add();
 TCase *tcase__s21_big_decimal_compare();
 TCase *tcase__s21_big_decimal_shift_left();
 TCase *tcase__s21_big_decimal_sub();
+TCase *tcase__s21_big_decimal_to_decimal();
 TCase *tcase__s21_decimal_to_big_decimal();
 TCase *tcase__s21_get_scale();
 TCase *tcase_s21_change_sign();

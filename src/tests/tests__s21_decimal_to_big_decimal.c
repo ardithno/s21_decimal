@@ -54,16 +54,25 @@ END_TEST
 
 START_TEST(same_decimals_different_scale_converts_to_same_values) {
   s21_decimal decimal = {{0xffffffff, 0, 0, 0}};
-  _s21_big_decimal big;
   s21_decimal decimal_scale_one = {{0xfffffff6, 0x9, 0, 0x10000}};  // scale 1
-  _s21_big_decimal big_from_scale_one;
 
+  _s21_big_decimal big;
+  _s21_big_decimal big_from_scale_one;
   _s21_decimal_to_big_decimal(&decimal, &big);
   _s21_decimal_to_big_decimal(&decimal_scale_one, &big_from_scale_one);
 
   is_big_equal = _is_two_big_decimals_equal(&big, &big_from_scale_one);
 
   ck_assert_int_eq(is_big_equal, S21_TRUE);
+}
+
+START_TEST(save_scale_in_same_way_as_decimal) {
+  s21_decimal decimal_scale_one = {{0xfffffff6, 0x9, 0, 0x10000}};  // scale 1
+
+  _s21_big_decimal big_from_scale_one;
+  _s21_decimal_to_big_decimal(&decimal_scale_one, &big_from_scale_one);
+
+  ck_assert_int_eq(big_from_scale_one.bits[BIG_SCALE], 0x10000);
 }
 
 TCase *tcase__s21_decimal_to_big_decimal(void) {
@@ -76,6 +85,7 @@ TCase *tcase__s21_decimal_to_big_decimal(void) {
   tcase_add_test(tc, negative_zero_is_converted_to_negative_big_zero);
   tcase_add_test(tc, max_decimal_converted_without_overflow);
   tcase_add_test(tc, same_decimals_different_scale_converts_to_same_values);
+  tcase_add_test(tc, save_scale_in_same_way_as_decimal);
 
   return tc;
 }

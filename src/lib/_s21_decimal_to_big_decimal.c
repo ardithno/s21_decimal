@@ -10,7 +10,9 @@ int _s21_decimal_to_big_decimal(s21_decimal const *decimal_ptr,
   }
 
   // Set big decimal scale to zero with sign form incoming decimal
-  big_decimal.bits[BIG_SCALE] = decimal_ptr->bits[SCALE] & 0x80000000;
+  // We also save the scale. It will be used to restore decimal scale if
+  // applicable.
+  big_decimal.bits[BIG_SCALE] = decimal_ptr->bits[SCALE];
 
   uint8_t power_of_ten = S21_DECIMAL_MAX_SCALE - _s21_get_scale(decimal_ptr);
   uint8_t overflow_from_lower_bits = 0;  // It's enough for multiply by 10

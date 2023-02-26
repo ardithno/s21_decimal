@@ -62,6 +62,7 @@ uint32_t s21_div_big_decimal(_s21_big_decimal const *dividend_ptr,
     }
   }
 
+  print_bits(sizeof(result), &result);
   *result_ptr = result;
   return dividend.bits[LOW];
 }
@@ -84,22 +85,22 @@ int _s21_big_decimal_to_decimal(_s21_big_decimal const *big_decimal_ptr,
                                 s21_decimal *decimal_ptr) {
   _s21_big_decimal big = *big_decimal_ptr;
 
-  uint32_t scale = 0;
+  int scale = 28;
   uint32_t reminder = 0;
 
-  while ((_is_extra_bits_not_empty(&big)) || (scale < 28 && reminder == 0)) {
+  while ((_is_extra_bits_not_empty(&big)) || (scale > 0 && reminder == 0)) {
     _s21_big_decimal divisor = {.bits = {10, 0, 0, 0, 0, 0, 0}};  // ten as big
     _s21_big_decimal temp_result = S21_DECIMAL_NULL;
 
-    reminder = s21_div_big_decimal(&big, &divisor, &temp_result);
+    reminder = _s21_big_decimal_div(&big, &divisor, &temp_result);
 
     if (reminder == 0) {
-      scale++;
+      scale--;
       big = temp_result;
     }
   }
 
-  *decimal_ptr = _s21_convert_suitable_big_decimal_to_decimal(&big, 28 - scale);
+  *decimal_ptr = _s21_convert_suitable_big_decimal_to_decimal(&big, scale);
 
   return 0;
 }

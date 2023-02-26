@@ -13,6 +13,7 @@ Suite *suite_s21_decimal(void) {
   suite_add_tcase(suite, tcase__s21_big_decimal_compare());
   suite_add_tcase(suite, tcase__s21_big_decimal_shift_left());
   suite_add_tcase(suite, tcase__s21_big_decimal_sub());
+  suite_add_tcase(suite, tcase__s21_big_decimal_to_decimal());
   suite_add_tcase(suite, tcase__s21_decimal_to_big_decimal());
   suite_add_tcase(suite, tcase__s21_get_scale());
 
