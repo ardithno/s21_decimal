@@ -56,14 +56,11 @@ int _s21_big_decimal_compare_bits(_s21_big_decimal const *first,
                                   _s21_big_decimal const *second);
 int _s21_big_decimal_compare(_s21_big_decimal const *first,
                              _s21_big_decimal const *second);
-uint32_t _s21_big_decimal_div(_s21_big_decimal const *dividend_ptr,
-                         _s21_big_decimal const *divisor_ptr,
-                         _s21_big_decimal *result_ptr);
-_s21_big_decimal _s21_big_decimal_sub(const _s21_big_decimal *minuend_ptr,
-                                      const _s21_big_decimal *subtrahend_ptr);
-void _s21_big_decimal_change_sign(_s21_big_decimal *big_decimal_ptr);
+uint8_t _s21_big_decimal_get_scale(_s21_big_decimal const *x);
 int _s21_big_decimal_get_sign(_s21_big_decimal const *big_decimal);
 void _s21_big_decimal_shift_left(_s21_big_decimal *big_decimal_ptr);
+_s21_big_decimal _s21_big_decimal_sub(const _s21_big_decimal *minuend_ptr,
+                                      const _s21_big_decimal *subtrahend_ptr);
 int _s21_big_decimal_to_decimal(_s21_big_decimal const *big_decimal_ptr,
                                 s21_decimal *decimal_ptr);
 
