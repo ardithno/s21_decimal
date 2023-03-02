@@ -102,6 +102,20 @@ START_TEST(negative_add_positive_return_positive) {
 }
 END_TEST
 
+START_TEST(overflow_from_lower_bits_not_break_result) {
+  _s21_big_decimal first = {.bits = {0xb1380000, 0xe43e9298, 0xffffffff,
+                                     0xa763ffff, 0xde0b6b3, 0, 0xa0000}};
+  _s21_big_decimal second = {.bits = {0xa7640000, 0xde0b6b3, 0x0000000,
+                                      0x00000000, 0x00000000, 0, 0xa0000}};
+  _s21_big_decimal expected = {.bits = {0x589c0000, 0xf21f494c, 0xffffffff,
+                                        0xa763ffff, 0xde0b6b3, 0, 0xa0000}};
+
+  _s21_big_decimal result = _s21_big_decimal_add(&first, &second);
+
+  ck_assert_int_eq(_s21_big_decimal_compare(&expected, &result), 0);
+}
+END_TEST
+
 TCase *tcase__s21_big_decimal_add(void) {
   TCase *tc;
 
@@ -116,6 +130,7 @@ TCase *tcase__s21_big_decimal_add(void) {
   tcase_add_test(tc, two_negative_expect_negative);
   tcase_add_test(tc, negative_add_positive_still_negative);
   tcase_add_test(tc, negative_add_positive_return_positive);
+  tcase_add_test(tc, overflow_from_lower_bits_not_break_result);
 
   return tc;
 }

@@ -7,7 +7,8 @@ _s21_big_decimal _s21_bits_add(const _s21_big_decimal *first_ptr,
   _s21_big_decimal big_result = *first_ptr;
 
   for (int i = LOW; i < BIG_SCALE; i++) {
-    uint64_t temp = big_result.bits[i] + second_ptr->bits[i];
+    uint64_t temp = big_result.bits[i];
+    temp += second_ptr->bits[i];
 
     big_result.bits[i] = (uint32_t)(temp & 0xffffffff);
 
