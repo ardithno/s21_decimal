@@ -64,7 +64,7 @@ uint8_t _s21_big_decimal_reduce_scale_once(_s21_big_decimal *big_ptr) {
   if (dividend_sign == 1) _s21_big_decimal_change_sign(&result);
 
   *big_ptr = result;
-  return (uint8_t)dividend.bits[LOW]; // reminder
+  return (uint8_t)dividend.bits[LOW];  // reminder
 }
 
 s21_decimal _s21_convert_suitable_big_decimal_to_decimal(
