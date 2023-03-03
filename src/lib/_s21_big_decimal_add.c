@@ -13,7 +13,7 @@ _s21_big_decimal _s21_bits_add(const _s21_big_decimal *first_ptr,
     big_result.bits[i] = (uint32_t)(temp & 0xffffffff);
 
     for (int j = i + 1; temp >> 32 == 0x00000001; j++) {
-      temp = big_result.bits[j] + 1;
+      temp = (uint64_t)big_result.bits[j] + 1;
       big_result.bits[j] = (uint32_t)(temp & 0xffffffff);
     }
   }

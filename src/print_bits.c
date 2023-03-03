@@ -24,41 +24,22 @@ void s21_mul_int(s21_decimal *input, int multiplier) {
 }
 
 int main() {
-  s21_decimal x = {.bits = {-2, -1, -1, 0x10000}};
-  s21_decimal y = {.bits = {5, 0, 0, 0x10000}};
-  s21_decimal result = S21_DECIMAL_NULL;
-
-  print_bits(sizeof(x), &x);
-  print_bits(sizeof(y), &y);
-
-  _s21_big_decimal bx = S21_DECIMAL_NULL;
-  _s21_big_decimal by = S21_DECIMAL_NULL;
-  _s21_big_decimal bresult = S21_DECIMAL_NULL;
-
-  _s21_decimal_to_big_decimal(&x, &bx);
-  _s21_decimal_to_big_decimal(&y, &by);
-
-  bresult = _s21_big_decimal_add(&bx, &by);
-
-  _s21_big_decimal_to_decimal(&bresult, &result);
-  print_bits(sizeof(result), &result);
-
-  // printf("d = %u\n", 0b11111111111111111111111110110100);
-
-  // s21_decimal y = {.bits = {1, 0, 0, 0x80000000}};
-  // _s21_big_decimal by = S21_DECIMAL_NULL;
-  // _s21_decimal_to_big_decimal(&y, &by);
-
-  // _s21_big_decimal bresult = S21_DECIMAL_NULL;
-  // bresult = _s21_big_decimal_add(&by, &by);
-  // printf("big_result\n");
-  // print_bits(sizeof(bresult), &bresult);
-
+  // 792.28162514264337593543950335 + 10 = 802.2816251426433759354395034
+  s21_decimal x = {.bits = {0xffffffff, 0xffffffff, 0xffffffff, 0x1a0000}};
+  s21_decimal y = {.bits = {1, 0, 0, 0}};
+  // s21_decimal expect = {.bits = {0xe399999a, 0xafad9ae1, 0x19a1df2e, 0x190000}};
   // s21_decimal result = S21_DECIMAL_NULL;
-  // printf("result\n");
-  // print_bits(sizeof(result), &result);
 
-  // int f = 0b11111111111111111111111111111110;
-  // printf("f=%d\n", f);
-  // print_bits(sizeof(f), &f);
+  _s21_big_decimal big_x = S21_DECIMAL_NULL;
+  _s21_big_decimal big_y = S21_DECIMAL_NULL;
+
+  _s21_decimal_to_big_decimal(&x, &big_x);
+  _s21_decimal_to_big_decimal(&y, &big_y);
+
+  print_bits(sizeof(big_y), &big_y);
+  print_bits(sizeof(big_x), &big_x);
+
+  _s21_big_decimal result = S21_DECIMAL_NULL;
+  result = _s21_big_decimal_add(&big_x, &big_y);
+  print_bits(sizeof(result), &result);
 }

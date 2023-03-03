@@ -60,5 +60,8 @@ coverage.info
 # VSCode stuff
 .vscode/
 
+# python venv
+venv/
+
 # macOS garbage
 .DS_Store

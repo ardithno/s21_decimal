@@ -30,6 +30,7 @@ typedef struct s21_decimal {
 #define S21_BIT_CLEAR(target, bit_num) ((target) &= ~(1ULL << (bit_num)))
 #define S21_BIT_FLIP(target, bit_num) ((target) ^= (1ULL << (bit_num)))
 
+int s21_add(s21_decimal first, s21_decimal second, s21_decimal *result_ptr);
 void s21_change_sign(s21_decimal *decimal);
 int s21_from_int_to_decimal(int src, s21_decimal *dst);
 int s21_get_sign(s21_decimal decimal);
