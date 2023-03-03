@@ -1,0 +1,20 @@
+image: gcc:latest
+
+variables:
+  PROJECT_DIR: "src/"
+
+stages:
+  - tests
+
+default:
+  tags:
+    - docker
+  before_script:
+    - apt-get update && apt-get -y install check clang-format cppcheck
+    - cd ${PROJECT_DIR}
+
+tests:
+  stage: tests
+  script:
+    - make lint
+    - make test
