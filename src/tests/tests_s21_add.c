@@ -225,6 +225,66 @@ START_TEST(adding_positive_and_negative_result_positive_null) {
 }
 END_TEST
 
+START_TEST(possible_verter_test_1) {
+  s21_decimal x = {.bits = {1, 1, 1, 65536}};
+  s21_decimal y = {.bits = {1, 1, 1, 65536}};
+  s21_decimal expect = {.bits = {2, 2, 2, 65536}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  int is_equal = -999;
+  int is_error = -99;
+
+  is_error = s21_add(x, y, &result);
+
+  is_equal = _tests_add_check_bits(result, expect);
+  ck_assert_int_eq(is_equal, S21_TRUE);
+  ck_assert_int_eq(is_error, 0);
+}
+
+START_TEST(possible_verter_test_2) {
+  s21_decimal x = {.bits = {1, 1, 1, 65536}};
+  s21_decimal y = {.bits = {1, 1, 1, 655360}};
+  s21_decimal expect = {.bits = {0x3b9aca01, 0x3b9aca01, 0x3b9aca01, 0xa0000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  int is_equal = -999;
+  int is_error = -99;
+
+  is_error = s21_add(x, y, &result);
+
+  is_equal = _tests_add_check_bits(result, expect);
+  ck_assert_int_eq(is_equal, S21_TRUE);
+  ck_assert_int_eq(is_error, 0);
+}
+
+START_TEST(possible_verter_test_3) {
+  s21_decimal x = {.bits = {24, 1, 1, -2147418112}};
+  s21_decimal y = {.bits = {1, 15, 1, 655360}};
+  s21_decimal expect = {{0x9682efff, 0x3b9ac9f6, 0x3b9ac9ff, 0x800a0000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  int is_equal = -999;
+  int is_error = -99;
+
+  is_error = s21_add(x, y, &result);
+
+  is_equal = _tests_add_check_bits(result, expect);
+  ck_assert_int_eq(is_equal, S21_TRUE);
+  ck_assert_int_eq(is_error, 0);
+}
+
+START_TEST(possible_verter_test_4) {
+  s21_decimal x = {.bits = {1, 1, 1, 655360}};
+  s21_decimal y = {.bits = {1, 1, 1, -2147418112}};
+  s21_decimal expect = {{0x3b9ac9ff, 0x3b9ac9ff, 0x3b9ac9ff, 0x800a0000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  int is_equal = -999;
+  int is_error = -99;
+
+  is_error = s21_add(x, y, &result);
+
+  is_equal = _tests_add_check_bits(result, expect);
+  ck_assert_int_eq(is_equal, S21_TRUE);
+  ck_assert_int_eq(is_error, 0);
+}
+
 TCase *tcase_s21_add(void) {
   TCase *tc;
 
@@ -243,6 +303,11 @@ TCase *tcase_s21_add(void) {
   tcase_add_test(tc, negative_overflow_not_happen);
   tcase_add_test(tc, adding_negative_and_positive_result_positive_null);
   tcase_add_test(tc, adding_positive_and_negative_result_positive_null);
+
+  tcase_add_test(tc, possible_verter_test_1);
+  tcase_add_test(tc, possible_verter_test_2);
+  tcase_add_test(tc, possible_verter_test_3);
+  tcase_add_test(tc, possible_verter_test_4);
 
   return tc;
 }

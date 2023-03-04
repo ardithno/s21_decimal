@@ -106,15 +106,17 @@ int _s21_big_decimal_to_decimal(_s21_big_decimal const *big_decimal_ptr,
   reminder = _s21_big_decimal_reduce_scale(&big, &scale);
 
   // Remove trailing zeros from result but not more than `desired_scale`
-  while (scale > desired_scale && reminder == 0) {
+  for (uint8_t temp_reminder = reminder;
+       scale > desired_scale && temp_reminder == 0;) {
     _s21_big_decimal temp_big = big;
-    uint8_t temp_reminder = _s21_big_decimal_reduce_scale_once(&temp_big);
+    temp_reminder = _s21_big_decimal_reduce_scale_once(&temp_big);
     if (temp_reminder == 0) {
       scale--;
       big = temp_big;
     }
   }
 
+  // Bank rounding if required
   if (reminder > 5 || (reminder == 5 && big.bits[LOW] & 1)) {
     _s21_big_decimal one_as_big = {{1, 0, 0, 0, 0, 0, big.bits[BIG_SCALE]}};
     big = _s21_big_decimal_add(&big, &one_as_big);
