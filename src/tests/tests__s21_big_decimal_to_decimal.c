@@ -8,7 +8,7 @@ START_TEST(biggest_decimal_round_conversion) {
   _s21_big_decimal big;
 
   _s21_decimal_to_big_decimal(&decimal, &big);
-  _s21_big_decimal_to_decimal(&big, &result);
+  _s21_big_decimal_to_decimal(&big, &result, 28);
 
   ck_assert_int_eq(s21_is_equal(decimal, result), 1);
 }
@@ -20,7 +20,7 @@ START_TEST(negative_decimal_round_conversion) {
   _s21_big_decimal big;
 
   _s21_decimal_to_big_decimal(&decimal, &big);
-  _s21_big_decimal_to_decimal(&big, &result);
+  _s21_big_decimal_to_decimal(&big, &result, 28);
 
   ck_assert_int_eq(s21_is_equal(decimal, result), 1);
 }
@@ -32,7 +32,7 @@ START_TEST(smallest_decimal_round_conversion) {
   _s21_big_decimal big;
 
   _s21_decimal_to_big_decimal(&decimal, &big);
-  _s21_big_decimal_to_decimal(&big, &result);
+  _s21_big_decimal_to_decimal(&big, &result, 28);
 
   ck_assert_int_eq(s21_is_equal(decimal, result), 1);
   ck_assert_int_eq(_s21_get_scale(&result), 28);
@@ -45,7 +45,7 @@ START_TEST(save_scale_if_possible) {
   _s21_big_decimal big;
 
   _s21_decimal_to_big_decimal(&decimal, &big);
-  _s21_big_decimal_to_decimal(&big, &result);
+  _s21_big_decimal_to_decimal(&big, &result, 28);
 
   ck_assert_int_eq(s21_is_equal(decimal, result), 1);
   ck_assert_int_eq(_s21_get_scale(&result), 8);
@@ -58,7 +58,7 @@ START_TEST(do_not_save_scale_if_not_possible) {
   s21_decimal expect = {.bits = {0x3b9aca01, 0x3b9aca01, 0x3b9aca01, 0xa0000}};
   s21_decimal result = S21_DECIMAL_NULL;
 
-  _s21_big_decimal_to_decimal(&big, &result);
+  _s21_big_decimal_to_decimal(&big, &result, 28);
 
   ck_assert_int_eq(s21_is_equal(expect, result), 1);
   ck_assert_int_eq(_s21_get_scale(&result), 10);

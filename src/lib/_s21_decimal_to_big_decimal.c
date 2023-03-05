@@ -9,23 +9,15 @@ int _s21_decimal_to_big_decimal(s21_decimal const *decimal_ptr,
     big_decimal.bits[i] = decimal_ptr->bits[i];
   }
 
-  // Set big decimal scale to zero with sign form incoming decimal
-  // We also save the scale. It will be used to restore decimal scale if
-  // applicable.
+  // Set sign and save the scale.
+  // The scale will be used to restore decimal scale if applicable
   big_decimal.bits[BIG_SCALE] = decimal_ptr->bits[SCALE];
 
   uint8_t power_of_ten = S21_DECIMAL_MAX_SCALE - _s21_get_scale(decimal_ptr);
   uint8_t overflow_from_lower_bits = 0;  // It's enough for multiply by 10
 
   while (power_of_ten-- != 0) {
-    for (int i = LOW; i < BIG_SCALE; i++) {
-      uint64_t temp = (uint64_t)(big_decimal.bits[i]);
-      temp *= 10;
-      temp += overflow_from_lower_bits;
-
-      big_decimal.bits[i] = (uint32_t)(temp & 0xffffffff);
-      overflow_from_lower_bits = (uint8_t)(temp >> 32);
-    }
+    _s21_big_decimal_multiply_ten(&big_decimal);
   }
 
   *big_decimal_ptr = big_decimal;

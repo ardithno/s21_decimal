@@ -20,6 +20,7 @@ Suite *suite_s21_decimal(void) {
   // User-faced functions
   suite_add_tcase(suite, tcase_s21_add());
   suite_add_tcase(suite, tcase_s21_change_sign());
+  suite_add_tcase(suite, tcase_s21_div());
   suite_add_tcase(suite, tcase_s21_from_int_to_decimal());
   suite_add_tcase(suite, tcase_s21_get_sign());
   suite_add_tcase(suite, tcase_s21_is_equal());

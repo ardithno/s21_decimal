@@ -31,6 +31,7 @@ typedef struct s21_decimal {
 #define S21_BIT_FLIP(target, bit_num) ((target) ^= (1ULL << (bit_num)))
 
 int s21_add(s21_decimal first, s21_decimal second, s21_decimal *result_ptr);
+int s21_div(s21_decimal divisor, s21_decimal dividend, s21_decimal *result_ptr);
 void s21_change_sign(s21_decimal *decimal);
 int s21_from_int_to_decimal(int src, s21_decimal *dst);
 int s21_get_sign(s21_decimal decimal);
@@ -60,12 +61,15 @@ int _s21_big_decimal_compare(_s21_big_decimal const *first,
                              _s21_big_decimal const *second);
 uint8_t _s21_big_decimal_get_scale(_s21_big_decimal const *x);
 int _s21_big_decimal_get_sign(_s21_big_decimal const *big_decimal);
+void _s21_big_decimal_multiply_ten(_s21_big_decimal *big_ptr);
+void _s21_big_decimal_set_bit(_s21_big_decimal *big_decimal, uint8_t bit_num);
 void _s21_big_decimal_shift_left(_s21_big_decimal *big_decimal_ptr);
 _s21_big_decimal _s21_big_decimal_sub(const _s21_big_decimal *minuend_ptr,
                                       const _s21_big_decimal *subtrahend_ptr);
 int _s21_big_decimal_to_decimal(_s21_big_decimal const *big_decimal_ptr,
-                                s21_decimal *decimal_ptr);
-
+                                s21_decimal *decimal_ptr, int scale);
+int _s21_decimal_compare_bits(s21_decimal const *first,
+                              s21_decimal const *second);
 int _s21_decimal_to_big_decimal(s21_decimal const *decimal,
                                 _s21_big_decimal *big_decimal_ptr);
 uint8_t _s21_get_scale(s21_decimal const *decimal);

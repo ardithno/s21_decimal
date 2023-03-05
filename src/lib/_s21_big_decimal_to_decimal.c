@@ -16,13 +16,6 @@ int _is_extra_bits_not_empty(_s21_big_decimal *big_decimal_ptr) {
   return (num_empty_bits != BIG_SCALE - SCALE) ? S21_TRUE : S21_FALSE;
 }
 
-void _s21_big_decimal_set_bit(_s21_big_decimal *big_ptr, uint8_t bit_num) {
-  uint8_t word_num = bit_num / 32;
-  uint8_t bit_in_word_num = bit_num % 32;
-
-  S21_BIT_SET(big_ptr->bits[word_num], bit_in_word_num);
-}
-
 uint8_t _s21_big_decimal_reduce_scale_once(_s21_big_decimal *big_ptr) {
   // Reduce big_decimal scale (long division by 10 once)
   //
@@ -86,7 +79,10 @@ uint8_t _s21_big_decimal_reduce_scale(_s21_big_decimal *big_ptr,
   uint8_t reminder = 0;
   int scale = *scale_ptr;
 
-  while (_is_extra_bits_not_empty(big_ptr)) {
+  // Checking scale > 28 is hack for division purpose. We store dividend
+  // scaled 10^29 (for precision purpose) and here we divide big decimal
+  // and get possible reminder.
+  while (_is_extra_bits_not_empty(big_ptr) || scale > 28) {
     scale--;
     reminder = _s21_big_decimal_reduce_scale_once(big_ptr);
   }
@@ -96,10 +92,9 @@ uint8_t _s21_big_decimal_reduce_scale(_s21_big_decimal *big_ptr,
 }
 
 int _s21_big_decimal_to_decimal(_s21_big_decimal const *big_decimal_ptr,
-                                s21_decimal *decimal_ptr) {
+                                s21_decimal *decimal_ptr, int scale) {
   _s21_big_decimal big = *big_decimal_ptr;
   uint8_t reminder = 0;
-  int scale = 28;
   int desired_scale = _s21_big_decimal_get_scale(&big);
   int is_error = S21_FALSE;
 
