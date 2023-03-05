@@ -2,16 +2,6 @@
 
 #include "../s21_decimal.h"
 
-int _tests_add_check_bits(s21_decimal first, s21_decimal second) {
-  int is_equal = S21_TRUE;
-
-  for (int i = LOW; i <= SCALE; i++) {
-    if (first.bits[i] != second.bits[i]) is_equal = S21_FALSE;
-  }
-
-  return is_equal;
-}
-
 START_TEST(regular_positive_add_rounding_up) {
   // 0.4444444444444444444444443354 + 100 = 100.44444444444444444444444434
   s21_decimal x = {.bits = {0x5c71c2da, 0x1b9eabb9, 0xe5c5bb8, 0x1c0000}};
@@ -23,8 +13,8 @@ START_TEST(regular_positive_add_rounding_up) {
 
   is_error = s21_add(x, y, &result);
 
-  is_equal = _tests_add_check_bits(result, expect);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
   ck_assert_int_eq(is_error, 0);
 }
 END_TEST
@@ -40,8 +30,8 @@ START_TEST(regular_positive_not_rounding) {
 
   is_error = s21_add(x, y, &result);
 
-  is_equal = _tests_add_check_bits(result, expect);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
   ck_assert_int_eq(is_error, 0);
 }
 END_TEST
@@ -57,8 +47,8 @@ START_TEST(bank_rounding_if_not_enough_bits_for_whole_result) {
 
   is_error = s21_add(x, y, &result);
 
-  is_equal = _tests_add_check_bits(result, expect);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
   ck_assert_int_eq(is_error, 0);
 }
 END_TEST
@@ -74,8 +64,8 @@ START_TEST(remove_unnecessary_trialing_zeros_from_result) {
 
   is_error = s21_add(x, y, &result);
 
-  is_equal = _tests_add_check_bits(result, expect);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
   ck_assert_int_eq(is_error, 0);
 }
 END_TEST
@@ -104,8 +94,8 @@ START_TEST(overflow_not_happen) {
 
   is_error = s21_add(x, y, &result);
 
-  is_equal = _tests_add_check_bits(result, expect);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
   ck_assert_int_eq(is_error, 0);
 }
 END_TEST
@@ -121,8 +111,8 @@ START_TEST(regular_negative_add_rounding_up) {
 
   is_error = s21_add(x, y, &result);
 
-  is_equal = _tests_add_check_bits(result, expect);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
   ck_assert_int_eq(is_error, 0);
 }
 END_TEST
@@ -138,8 +128,8 @@ START_TEST(regular_negative_not_rounding) {
 
   is_error = s21_add(x, y, &result);
 
-  is_equal = _tests_add_check_bits(result, expect);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
   ck_assert_int_eq(is_error, 0);
 }
 END_TEST
@@ -155,8 +145,8 @@ START_TEST(save_trailing_zeros_if_possible) {
 
   is_error = s21_add(x, y, &result);
 
-  is_equal = _tests_add_check_bits(result, expect);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
   ck_assert_int_eq(is_error, 0);
 }
 END_TEST
@@ -185,8 +175,8 @@ START_TEST(negative_overflow_not_happen) {
 
   is_error = s21_add(x, y, &result);
 
-  is_equal = _tests_add_check_bits(result, expect);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
   ck_assert_int_eq(is_error, 0);
 }
 END_TEST
@@ -202,8 +192,8 @@ START_TEST(adding_negative_and_positive_result_positive_null) {
 
   is_error = s21_add(x, y, &result);
 
-  is_equal = _tests_add_check_bits(result, expect);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
   ck_assert_int_eq(is_error, 0);
 }
 END_TEST
@@ -219,8 +209,8 @@ START_TEST(adding_positive_and_negative_result_positive_null) {
 
   is_error = s21_add(x, y, &result);
 
-  is_equal = _tests_add_check_bits(result, expect);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
   ck_assert_int_eq(is_error, 0);
 }
 END_TEST
@@ -235,8 +225,8 @@ START_TEST(possible_verter_test_1) {
 
   is_error = s21_add(x, y, &result);
 
-  is_equal = _tests_add_check_bits(result, expect);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
   ck_assert_int_eq(is_error, 0);
 }
 
@@ -250,8 +240,8 @@ START_TEST(possible_verter_test_2) {
 
   is_error = s21_add(x, y, &result);
 
-  is_equal = _tests_add_check_bits(result, expect);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
   ck_assert_int_eq(is_error, 0);
 }
 
@@ -265,8 +255,8 @@ START_TEST(possible_verter_test_3) {
 
   is_error = s21_add(x, y, &result);
 
-  is_equal = _tests_add_check_bits(result, expect);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
   ck_assert_int_eq(is_error, 0);
 }
 
@@ -280,8 +270,8 @@ START_TEST(possible_verter_test_4) {
 
   is_error = s21_add(x, y, &result);
 
-  is_equal = _tests_add_check_bits(result, expect);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
   ck_assert_int_eq(is_error, 0);
 }
 
