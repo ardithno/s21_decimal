@@ -22,7 +22,6 @@ START_TEST(zero_negative_decimal_set_31_bit_to_zero) {
 }
 END_TEST
 
-// You may want rewrite it when decimal comparing will be ready
 START_TEST(using_twice_return_original_value) {
   s21_decimal decimal = {{20, 2, 34, 30}};  // Other bits are filled
   s21_decimal same_value_decimal = {{20, 2, 34, 30}};
@@ -30,10 +29,8 @@ START_TEST(using_twice_return_original_value) {
   s21_change_sign(&decimal);
   s21_change_sign(&decimal);
 
-  ck_assert_int_eq(decimal.bits[0], same_value_decimal.bits[0]);
-  ck_assert_int_eq(decimal.bits[1], same_value_decimal.bits[1]);
-  ck_assert_int_eq(decimal.bits[2], same_value_decimal.bits[2]);
-  ck_assert_int_eq(decimal.bits[3], same_value_decimal.bits[3]);
+  int is_bits_equal = _s21_decimal_compare_bits(&decimal, &same_value_decimal);
+  ck_assert_int_eq(is_bits_equal, 0);  // Zero means equal
 }
 END_TEST
 

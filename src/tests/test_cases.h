@@ -12,6 +12,7 @@ TCase *tcase__s21_decimal_to_big_decimal();
 TCase *tcase__s21_get_scale();
 TCase *tcase_s21_add();
 TCase *tcase_s21_change_sign();
+TCase *tcase_s21_div();
 TCase *tcase_s21_from_int_to_decimal();
 TCase *tcase_s21_get_sign();
 TCase *tcase_s21_is_equal();

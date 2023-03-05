@@ -10,5 +10,5 @@ int s21_add(s21_decimal first, s21_decimal second, s21_decimal *result_ptr) {
 
   big_result = _s21_big_decimal_add(&big_first, &big_second);
 
-  return _s21_big_decimal_to_decimal(&big_result, result_ptr);
+  return _s21_big_decimal_to_decimal(&big_result, result_ptr, 28);
 }
