@@ -1,3 +1,5 @@
+[![Lint and test](https://github.com/ardithno/s21_decimal/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ardithno/s21_decimal/actions/workflows/ci.yml)
+
 ## Что сделать
 
 ### Арифметические операторы

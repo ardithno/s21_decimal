@@ -2,16 +2,6 @@
 
 #include "../s21_decimal.h"
 
-int _tests_sub_check_bits(s21_decimal first, s21_decimal second) {
-  int is_equal = S21_TRUE;
-
-  for (int i = LOW; i <= SCALE; i++) {
-    if (first.bits[i] != second.bits[i]) is_equal = S21_FALSE;
-  }
-
-  return is_equal;
-}
-
 START_TEST(possible_verter_test_1) {
   s21_decimal x = {.bits = {1, 1, 1, 65536}};
   s21_decimal y = {.bits = {1, 1, 1, -2147418112}};
@@ -22,8 +12,8 @@ START_TEST(possible_verter_test_1) {
 
   is_error = s21_sub(x, y, &result);
 
-  is_equal = _tests_sub_check_bits(result, expect);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
   ck_assert_int_eq(is_error, 0);
 }
 END_TEST
@@ -38,8 +28,8 @@ START_TEST(possible_verter_test_2) {
 
   is_error = s21_sub(x, y, &result);
 
-  is_equal = _tests_sub_check_bits(result, expect);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
   ck_assert_int_eq(is_error, 0);
 }
 END_TEST
@@ -54,8 +44,8 @@ START_TEST(possible_verter_test_3) {
 
   is_error = s21_sub(x, y, &result);
 
-  is_equal = _tests_sub_check_bits(result, expect);
-  ck_assert_int_eq(is_equal, S21_TRUE);
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
   ck_assert_int_eq(is_error, 0);
 }
 END_TEST

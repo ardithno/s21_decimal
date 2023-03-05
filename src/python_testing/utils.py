@@ -17,9 +17,8 @@ def get_bits_representation(value: int) -> str:
         for int_value in int32_values
     ]
 
-    return (" | ").join(int32_values)
+    return (" | ").join(bytes_representation)
 
 
 value = 79228162514264337593543950335
-big_value = value * pow(10, 28)
-bb_value = big_value * pow(10, 28)
+big_value = value * pow(10, 29)
