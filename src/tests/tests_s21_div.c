@@ -131,7 +131,7 @@ START_TEST(max_value_divided_by_three_correct_result) {
 END_TEST
 
 START_TEST(max_value_divided_by_fraction_became_overflow) {
-  // 79228162514264337593543950335 / 0.1 = overflow !!!
+  // 79228162514264337593543950335 / 0.1 = +overflow !!!
   s21_decimal x = {.bits = {0xffffffff, 0xffffffff, 0xffffffff, 0}};
   s21_decimal y = {.bits = {0x1, 0, 0, 0x10000}};
   s21_decimal result = S21_DECIMAL_NULL;
@@ -147,8 +147,8 @@ START_TEST(max_value_divided_by_fraction_became_overflow) {
 }
 END_TEST
 
-START_TEST(max_value_divided_by_fraction_became_negative_overflow) {
-  // 79228162514264337593543950335 / -0.1 = overflow !!!
+START_TEST(max_divided_by_negative_fraction_became_negative_overflow) {
+  // 79228162514264337593543950335 / -0.1 = -overflow !!!
   s21_decimal x = {.bits = {0xffffffff, 0xffffffff, 0xffffffff, 0}};
   s21_decimal y = {.bits = {0x1, 0, 0, 0x80010000}};
   s21_decimal result = S21_DECIMAL_NULL;
@@ -164,8 +164,42 @@ START_TEST(max_value_divided_by_fraction_became_negative_overflow) {
 }
 END_TEST
 
+START_TEST(negative_max_divided_by_positive_fraction_became_overflow) {
+  // 79228162514264337593543950335 / -0.1 = -overflow !!!
+  s21_decimal x = {.bits = {0xffffffff, 0xffffffff, 0xffffffff, 0x80000000}};
+  s21_decimal y = {.bits = {0x1, 0, 0, 0x10000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal expected = S21_DECIMAL_NULL;
+  int is_equal = -999;
+  int is_error = -99;
+
+  is_error = s21_div(x, y, &result);
+
+  is_equal = _s21_decimal_compare_bits(&result, &expected);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
+  ck_assert_int_eq(is_error, 2);  // The minus infinity happen
+}
+END_TEST
+
+START_TEST(negative_divided_by_negative_return_positive_overflow) {
+  // -79228162514264337593543950335 / -0.1 = +overflow !!!
+  s21_decimal x = {.bits = {0xffffffff, 0xffffffff, 0xffffffff, 0x80000000}};
+  s21_decimal y = {.bits = {0x1, 0, 0, 0x80010000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal expected = S21_DECIMAL_NULL;
+  int is_equal = -999;
+  int is_error = -99;
+
+  is_error = s21_div(x, y, &result);
+
+  is_equal = _s21_decimal_compare_bits(&result, &expected);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
+  ck_assert_int_eq(is_error, 1);  // The plus infinity happen
+}
+END_TEST
+
 START_TEST(return_error_for_division_by_zero) {
-  // 79228162514264337593543950335 / 0 = overflow !!!
+  // 79228162514264337593543950335 / 0 = division_by_zero !!!
   s21_decimal x = {.bits = {0xffffffff, 0xffffffff, 0xffffffff, 0}};
   s21_decimal y = {.bits = {0, 0, 0, 0}};
   s21_decimal result = S21_DECIMAL_NULL;
@@ -250,6 +284,40 @@ START_TEST(possible_verter_test_4) {
 }
 END_TEST
 
+START_TEST(do_not_loose_precision_on_small_division) {
+  // -0.00001 / 0.00000000007 = -142857.14285714285714285714286
+  s21_decimal x = {.bits = {0x1, 0, 0, 0x80050000}};
+  s21_decimal y = {.bits = {0x7, 0, 0, 0xd0000}};
+  s21_decimal expect = {{0xcdb6db6e, 0x3434ded3, 0x2e28ddab, 0x80150000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  int is_equal = -999;
+  int is_error = -99;
+
+  is_error = s21_div(x, y, &result);
+
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
+  ck_assert_int_eq(is_error, 0);
+}
+END_TEST
+
+START_TEST(do_not_loose_precision_on_smaller_division) {
+  // 0.000000000000000001 / 0.0000000000007 = 0.0000014285714285714285714286
+  s21_decimal x = {.bits = {0x1, 0, 0, 0x120000}};
+  s21_decimal y = {.bits = {0x7, 0, 0, 0xd0000}};
+  s21_decimal expect = {{0x2336db6e, 0x6e1c8de6, 0x306, 0x1c0000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  int is_equal = -999;
+  int is_error = -99;
+
+  is_error = s21_div(x, y, &result);
+
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
+  ck_assert_int_eq(is_error, 0);
+}
+END_TEST
+
 TCase *tcase_s21_div(void) {
   TCase *tc;
 
@@ -263,8 +331,12 @@ TCase *tcase_s21_div(void) {
   tcase_add_test(tc, max_value_divided_by_one_not_overflowed);
   tcase_add_test(tc, max_value_divided_by_three_correct_result);
   tcase_add_test(tc, max_value_divided_by_fraction_became_overflow);
-  tcase_add_test(tc, max_value_divided_by_fraction_became_negative_overflow);
+  tcase_add_test(tc, max_divided_by_negative_fraction_became_negative_overflow);
+  tcase_add_test(tc, negative_max_divided_by_positive_fraction_became_overflow);
+  tcase_add_test(tc, negative_divided_by_negative_return_positive_overflow);
   tcase_add_test(tc, return_error_for_division_by_zero);
+  tcase_add_test(tc, do_not_loose_precision_on_small_division);
+  tcase_add_test(tc, do_not_loose_precision_on_smaller_division);
 
   tcase_add_test(tc, possible_verter_test_1);
   tcase_add_test(tc, possible_verter_test_2);

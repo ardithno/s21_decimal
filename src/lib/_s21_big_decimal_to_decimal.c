@@ -17,47 +17,15 @@ int _is_extra_bits_not_empty(_s21_big_decimal *big_decimal_ptr) {
 }
 
 uint8_t _s21_big_decimal_reduce_scale_once(_s21_big_decimal *big_ptr) {
-  // Reduce big_decimal scale (long division by 10 once)
-  //
-  // 1. Find the quotient, which is the largest value equal to the divisor
-  //    raised to the power of 2 that is less than or equal to the dividend
-  // 2. Set bit in result
-  // 3. Subtract the quotient from the dividend
-  // 4. Repeat until the divisor is greater than the dividend
-  // 5. Return reminder. It's always less than 10 in binary representation
-
   _s21_big_decimal dividend = *big_ptr;
   _s21_big_decimal divisor = {.bits = {10, 0, 0, 0, 0, 0, 0, 0}};  // ten as big
   _s21_big_decimal result = S21_DECIMAL_NULL;
+  _s21_big_decimal reminder = S21_DECIMAL_NULL;
 
-  int dividend_sign = _s21_big_decimal_get_sign(&dividend);
-  if (dividend_sign == 1) _s21_big_decimal_change_sign(&dividend);
-
-  while (_s21_big_decimal_compare_bits(&divisor, &dividend) != -1) {
-    _s21_big_decimal quotient = divisor;
-    uint8_t one_bit_num_in_result = 0;
-
-    int compare = _s21_big_decimal_compare_bits(&dividend, &divisor);
-
-    while (compare == -1) {
-      _s21_big_decimal temp_quotient = quotient;
-      _s21_big_decimal_shift_left(&temp_quotient);
-      compare = _s21_big_decimal_compare_bits(&dividend, &temp_quotient);
-
-      if (compare == -1 || compare == 0) {
-        one_bit_num_in_result++;
-        quotient = temp_quotient;
-      }
-    }
-
-    dividend = _s21_big_decimal_sub(&dividend, &quotient);
-    _s21_big_decimal_set_bit(&result, one_bit_num_in_result);
-  }
-
-  if (dividend_sign == 1) _s21_big_decimal_change_sign(&result);
+  _s21_big_decimal_unsafe_div(dividend, divisor, &result, &reminder);
 
   *big_ptr = result;
-  return (uint8_t)dividend.bits[LOW];  // reminder
+  return (uint8_t)reminder.bits[LOW];
 }
 
 s21_decimal _s21_convert_suitable_big_decimal_to_decimal(
