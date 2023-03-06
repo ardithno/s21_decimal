@@ -18,5 +18,6 @@ TCase *tcase_s21_get_sign();
 TCase *tcase_s21_is_equal();
 TCase *tcase_s21_is_zero();
 TCase *tcase_s21_negate();
+TCase *tcase_s21_sub();
 
 #endif /* SRC_TESTS_TEST_CASES_H_ */

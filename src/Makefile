@@ -4,6 +4,7 @@ LDFLAGS +=              -Wall -Werror -Wextra
 
 SRC_DIR := ./lib/
 OBJ_DIR := ./objects/
+TEST_OBJ_DIR := ./objects/tests/
 
 SRC :=                  $(wildcard $(SRC_DIR)*.c)
 OBJ :=                  $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
@@ -11,17 +12,17 @@ OBJ_PROFILED :=         $(OBJ:.o=_profiled.o)
 
 TEST_DIR :=             ./tests/
 TEST_SRC :=             $(wildcard $(TEST_DIR)*.c)
-TEST_OBJ :=             $(TEST_SRC:.c=.o) 
+TEST_OBJ :=             $(TEST_SRC:$(TEST_DIR)%.c=$(TEST_OBJ_DIR)%.o)
 TEST_EXEC :=            $(TEST_DIR)tests_s21_decimal.out
 
-TEST_PROFILE_DATA =     $(wildcard $(OBJ_DIR)*.gcda $(OBJ_DIR)*.gcno $(TEST_DIR)*.gcda $(TEST_DIR)*.gcno)
+TEST_PROFILE_DATA =     $(wildcard $(OBJ_DIR)*.gcda $(OBJ_DIR)*.gcno)
 
 COVERAGE_REPORT_DIR :=  ./coverage/
 COVERAGE_FILE :=        coverage.info
 
 LIB :=                  s21_decimal.a
 
-.PHONY: test tests echo clean lint coverage_report gcov_report
+.PHONY: all test tests echo clean lint coverage_report gcov_report
 
 all: $(LIB)
 
@@ -45,11 +46,10 @@ fmt:
 test: tests
 
 tests: CFLAGS += -g
+tests: LDFLAGS += --coverage
 tests: $(TEST_EXEC)
 	@$^
 
-coverage_report: CFLAGS += --coverage -g
-coverage_report: LDFLAGS += --coverage
 coverage_report: tests
 	lcov --capture --directory $(OBJ_DIR) --output-file $(COVERAGE_FILE)
 
@@ -59,13 +59,14 @@ gcov_report: coverage_report
 $(LIB): $(OBJ)
 	$(AR) -rcs $@ $^
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(OBJ_DIR)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
-$(OBJ_DIR)%_profiled.o: $(SRC_DIR)%.c $(OBJ_DIR)
+$(OBJ_DIR)%_profiled.o: CFLAGS += --coverage
+$(OBJ_DIR)%_profiled.o: $(SRC_DIR)%.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
-$(TEST_DIR)%.o: $(TEST_DIR)%.c
+$(TEST_OBJ_DIR)%.o: $(TEST_DIR)%.c
 	$(CC) -c $(CFLAGS) $^ -o $@
 
 $(TEST_EXEC): CFLAGS += $(shell pkg-config --cflags-only-I check)
@@ -73,10 +74,7 @@ $(TEST_EXEC): LDLIBS += $(shell pkg-config --libs check)
 $(TEST_EXEC): $(TEST_OBJ) $(OBJ_PROFILED)
 	$(CC) $(LDFLAGS) $^ -o $@ $(LDLIBS)
 
-$(OBJ_DIR):
-	mkdir -p $@
-
 clean:
-	rm -rf $(OBJ_DIR) $(LIB)
+	rm -rf $(LIB) $(OBJ) $(OBJ_PROFILED)
 	rm -rf $(TEST_EXEC) $(TEST_OBJ) $(TEST_PROFILE_DATA)
 	rm -rf $(COVERAGE_FILE) $(COVERAGE_REPORT_DIR)
