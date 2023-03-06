@@ -68,6 +68,10 @@ _s21_big_decimal _s21_big_decimal_sub(const _s21_big_decimal *minuend_ptr,
                                       const _s21_big_decimal *subtrahend_ptr);
 int _s21_big_decimal_to_decimal(_s21_big_decimal const *big_decimal_ptr,
                                 s21_decimal *decimal_ptr, int scale);
+void _s21_big_decimal_unsafe_div(_s21_big_decimal dividend,
+                                 _s21_big_decimal divisor,
+                                 _s21_big_decimal *result_ptr,
+                                 _s21_big_decimal *reminder_ptr);
 int _s21_decimal_compare_bits(s21_decimal const *first,
                               s21_decimal const *second);
 void _s21_decimal_to_big_decimal(s21_decimal const *decimal,
