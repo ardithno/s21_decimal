@@ -18,7 +18,7 @@ END_TEST
 
 START_TEST(zeros_with_different_signs_is_equal) {
   _s21_big_decimal positive = S21_DECIMAL_NULL;
-  _s21_big_decimal negative = {.bits = {0, 0, 0, 0, 0, 0, 0x80000000}};
+  _s21_big_decimal negative = {.bits = {0, 0, 0, 0, 0, 0, 0, 0x80000000}};
 
   _big_decimal_compare = _s21_big_decimal_compare(&positive, &negative);
 
@@ -27,8 +27,8 @@ START_TEST(zeros_with_different_signs_is_equal) {
 END_TEST
 
 START_TEST(return_minus_one_if_first_bigger) {
-  _s21_big_decimal first = {.bits = {0, 1, 0, 0, 0, 0, 0}};
-  _s21_big_decimal second = {.bits = {1, 0, 0, 0, 0, 0, 0}};
+  _s21_big_decimal first = {.bits = {0, 1, 0, 0, 0, 0, 0, 0}};
+  _s21_big_decimal second = {.bits = {1, 0, 0, 0, 0, 0, 0, 0}};
 
   _big_decimal_compare = _s21_big_decimal_compare(&first, &second);
 
@@ -37,8 +37,8 @@ START_TEST(return_minus_one_if_first_bigger) {
 END_TEST
 
 START_TEST(return_minus_one_if_first_bigger_for_negative) {
-  _s21_big_decimal first = {.bits = {1, 0, 0, 0, 0, 0, 0x80000000}};
-  _s21_big_decimal second = {.bits = {0, 1, 0, 0, 0, 0, 0x80000000}};
+  _s21_big_decimal first = {.bits = {1, 0, 0, 0, 0, 0, 0, 0x80000000}};
+  _s21_big_decimal second = {.bits = {0, 1, 0, 0, 0, 0, 0, 0x80000000}};
 
   _big_decimal_compare = _s21_big_decimal_compare(&first, &second);
 
@@ -47,8 +47,8 @@ START_TEST(return_minus_one_if_first_bigger_for_negative) {
 END_TEST
 
 START_TEST(return_one_if_second_bigger) {
-  _s21_big_decimal first = {.bits = {1, 0, 0, 0, 0, 0, 0}};
-  _s21_big_decimal second = {.bits = {0, 1, 0, 0, 0, 0, 0}};
+  _s21_big_decimal first = {.bits = {1, 0, 0, 0, 0, 0, 0, 0}};
+  _s21_big_decimal second = {.bits = {0, 1, 0, 0, 0, 0, 0, 0}};
 
   _big_decimal_compare = _s21_big_decimal_compare(&first, &second);
 
@@ -57,8 +57,8 @@ START_TEST(return_one_if_second_bigger) {
 END_TEST
 
 START_TEST(return_one_if_second_bigger_for_negative) {
-  _s21_big_decimal first = {.bits = {0, 1, 0, 0, 0, 0, 0x80000000}};
-  _s21_big_decimal second = {.bits = {1, 0, 0, 0, 0, 0, 0x80000000}};
+  _s21_big_decimal first = {.bits = {0, 1, 0, 0, 0, 0, 0, 0x80000000}};
+  _s21_big_decimal second = {.bits = {1, 0, 0, 0, 0, 0, 0, 0x80000000}};
 
   _big_decimal_compare = _s21_big_decimal_compare(&first, &second);
 
@@ -67,8 +67,8 @@ START_TEST(return_one_if_second_bigger_for_negative) {
 END_TEST
 
 START_TEST(two_same_bits_different_signs_first_bigger) {
-  _s21_big_decimal positive = {.bits = {99, 99, 0, 0, 0, 1, 0}};
-  _s21_big_decimal negative = {.bits = {99, 99, 0, 0, 0, 1, 0x80000000}};
+  _s21_big_decimal positive = {.bits = {99, 99, 0, 0, 0, 1, 0, 0}};
+  _s21_big_decimal negative = {.bits = {99, 99, 0, 0, 0, 1, 0, 0x80000000}};
 
   _big_decimal_compare = _s21_big_decimal_compare(&positive, &negative);
 
@@ -77,8 +77,8 @@ START_TEST(two_same_bits_different_signs_first_bigger) {
 END_TEST
 
 START_TEST(two_same_bits_different_signs_second_bigger) {
-  _s21_big_decimal positive = {.bits = {99, 99, 0, 0, 0, 1, 0}};
-  _s21_big_decimal negative = {.bits = {99, 99, 0, 0, 0, 1, 0x80000000}};
+  _s21_big_decimal positive = {.bits = {99, 99, 0, 0, 0, 1, 0, 0}};
+  _s21_big_decimal negative = {.bits = {99, 99, 0, 0, 0, 1, 0, 0x80000000}};
 
   _big_decimal_compare = _s21_big_decimal_compare(&negative, &positive);
 
@@ -87,8 +87,8 @@ START_TEST(two_same_bits_different_signs_second_bigger) {
 END_TEST
 
 START_TEST(two_negative_is_equal) {
-  _s21_big_decimal first = {.bits = {99, 99, 0, 0, 0, 1, 0x80000000}};
-  _s21_big_decimal second = {.bits = {99, 99, 0, 0, 0, 1, 0x80000000}};
+  _s21_big_decimal first = {.bits = {99, 99, 0, 0, 0, 1, 0, 0x80000000}};
+  _s21_big_decimal second = {.bits = {99, 99, 0, 0, 0, 1, 0, 0x80000000}};
 
   _big_decimal_compare = _s21_big_decimal_compare(&first, &second);
 
@@ -97,8 +97,8 @@ START_TEST(two_negative_is_equal) {
 END_TEST
 
 START_TEST(two_positive_is_equal) {
-  _s21_big_decimal first = {.bits = {99, 99, 0, 0, 43, 1, 0}};
-  _s21_big_decimal second = {.bits = {99, 99, 0, 0, 43, 1, 0}};
+  _s21_big_decimal first = {.bits = {99, 99, 0, 0, 43, 1, 0, 0}};
+  _s21_big_decimal second = {.bits = {99, 99, 0, 0, 43, 1, 0, 0}};
 
   _big_decimal_compare = _s21_big_decimal_compare(&first, &second);
 
