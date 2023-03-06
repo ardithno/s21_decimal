@@ -4,6 +4,10 @@ void _reset_decimal_scale(s21_decimal *decimal) { decimal->bits[SCALE] = 0; }
 
 void _represent_decimal_as_big_decimal(s21_decimal const *decimal,
                                        _s21_big_decimal *big_ptr) {
+  _s21_big_decimal big_empty = S21_DECIMAL_NULL;
+
+  *big_ptr = big_empty;
+
   for (int i = LOW; i < SCALE; i++) {
     big_ptr->bits[i] = decimal->bits[i];
   }
@@ -49,6 +53,11 @@ int s21_div(s21_decimal dividend, s21_decimal divisor,
   // 2. Divide by divisor
   // 3. Convert resulted big decimal to decimal
 
+  int is_error = 3;
+
+  if (s21_is_zero(divisor)) return is_error;
+
+  s21_decimal result = S21_DECIMAL_NULL;
   _s21_big_decimal big_dividend = S21_DECIMAL_NULL;
   _s21_big_decimal big_divisor = S21_DECIMAL_NULL;
   _s21_big_decimal big_result = S21_DECIMAL_NULL;
@@ -66,21 +75,20 @@ int s21_div(s21_decimal dividend, s21_decimal divisor,
   _s21_decimal_to_big_decimal(&dividend, &big_dividend);
   _s21_big_decimal_multiply_ten(&big_dividend);
 
-  //
+  // Divisor used `as is` but as big_decimal.
   _represent_decimal_as_big_decimal(&divisor, &big_divisor);
 
   big_result = stupid_div(big_dividend, big_divisor);
+  if (dividend_sign != divisor_sign) _s21_big_decimal_change_sign(&big_result);
 
-  // Do something with that!!! It has to be impossible to have scale > 28
-  int result_scale = (28 + 1 - (28 - dividend_scale) + (28 - divisor_scale));
+  // The initial scale is 29 because the dividend used with that scale
+  int result_scale = (29 - (28 - dividend_scale) + (28 - divisor_scale));
 
-  s21_decimal result = S21_DECIMAL_NULL;
-  _s21_big_decimal_to_decimal(&big_result, &result, result_scale);
+  is_error = _s21_big_decimal_to_decimal(&big_result, &result, result_scale);
 
-  if (dividend_sign != divisor_sign) s21_change_sign(&result);
+  if (!is_error) {
+    *result_ptr = result;
+  }
 
-  *result_ptr = result;
-
-  // Do something with that!!! Overflow may happen here!
-  return 0;
+  return is_error;
 }

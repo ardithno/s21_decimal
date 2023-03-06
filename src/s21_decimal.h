@@ -44,7 +44,7 @@ int s21_sub(s21_decimal first, s21_decimal second, s21_decimal *result_ptr);
 --------- Internal functions and definitions -----------
 ------------------------------------------------------ */
 
-#define BIG_DECIMAL_PARTS_LEN ((DECIMAL_PARTS_LEN - 1) * 2 + 1)
+#define BIG_DECIMAL_PARTS_LEN 8
 #define BIG_SCALE (BIG_DECIMAL_PARTS_LEN - 1)
 
 // The structure is big enough to store any decimal scaled to zero
@@ -70,8 +70,8 @@ int _s21_big_decimal_to_decimal(_s21_big_decimal const *big_decimal_ptr,
                                 s21_decimal *decimal_ptr, int scale);
 int _s21_decimal_compare_bits(s21_decimal const *first,
                               s21_decimal const *second);
-int _s21_decimal_to_big_decimal(s21_decimal const *decimal,
-                                _s21_big_decimal *big_decimal_ptr);
+void _s21_decimal_to_big_decimal(s21_decimal const *decimal,
+                                 _s21_big_decimal *big_decimal_ptr);
 uint8_t _s21_get_scale(s21_decimal const *decimal);
 
 // def me

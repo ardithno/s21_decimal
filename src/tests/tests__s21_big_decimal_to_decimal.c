@@ -54,7 +54,7 @@ END_TEST
 
 START_TEST(do_not_save_scale_if_not_possible) {
   _s21_big_decimal big = {.bits = {0x8f640000, 0x3d1536f0, 0x4050652d,
-                                   0xb0ec652d, 0x33b2e3c, 0, 0x10000}};
+                                   0xb0ec652d, 0x33b2e3c, 0, 0, 0x10000}};
   s21_decimal expect = {.bits = {0x3b9aca01, 0x3b9aca01, 0x3b9aca01, 0xa0000}};
   s21_decimal result = S21_DECIMAL_NULL;
 

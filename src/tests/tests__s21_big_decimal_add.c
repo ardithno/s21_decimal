@@ -13,8 +13,8 @@ START_TEST(zero_add_zero) {
 END_TEST
 
 START_TEST(negative_add_same_positive_return_zero) {
-  _s21_big_decimal negative = {.bits = {0, 0, 1, 1, 0, 0, 0x80000000}};
-  _s21_big_decimal positive = {.bits = {0, 0, 1, 1, 0, 0, 0}};
+  _s21_big_decimal negative = {.bits = {0, 0, 1, 1, 0, 0, 0, 0x80000000}};
+  _s21_big_decimal positive = {.bits = {0, 0, 1, 1, 0, 0, 0, 0}};
   _s21_big_decimal expected = S21_DECIMAL_NULL;
 
   _s21_big_decimal result = _s21_big_decimal_add(&positive, &negative);
@@ -25,8 +25,8 @@ START_TEST(negative_add_same_positive_return_zero) {
 END_TEST
 
 START_TEST(positive_add_same_negative_return_zero) {
-  _s21_big_decimal negative = {.bits = {0, 0, 1, 1, 0, 0, 0x80000000}};
-  _s21_big_decimal positive = {.bits = {0, 0, 1, 1, 0, 0, 0}};
+  _s21_big_decimal negative = {.bits = {0, 0, 1, 1, 0, 0, 0, 0x80000000}};
+  _s21_big_decimal positive = {.bits = {0, 0, 1, 1, 0, 0, 0, 0}};
   _s21_big_decimal expected = S21_DECIMAL_NULL;
 
   _s21_big_decimal result = _s21_big_decimal_add(&negative, &positive);
@@ -37,9 +37,9 @@ START_TEST(positive_add_same_negative_return_zero) {
 END_TEST
 
 START_TEST(two_positive_expect_positive) {
-  _s21_big_decimal first = {.bits = {0, 0, 0, 1, 0, 0, 0}};
-  _s21_big_decimal second = {.bits = {0xffffffff, 0, 0, 0, 0, 0, 0}};
-  _s21_big_decimal expected = {.bits = {0xffffffff, 0, 0, 1, 0, 0, 0}};
+  _s21_big_decimal first = {.bits = {0, 0, 0, 1, 0, 0, 0, 0}};
+  _s21_big_decimal second = {.bits = {0xffffffff, 0, 0, 0, 0, 0, 0, 0}};
+  _s21_big_decimal expected = {.bits = {0xffffffff, 0, 0, 1, 0, 0, 0, 0}};
 
   _s21_big_decimal result = _s21_big_decimal_add(&first, &second);
 
@@ -48,9 +48,9 @@ START_TEST(two_positive_expect_positive) {
 END_TEST
 
 START_TEST(positive_add_negative_still_positive) {
-  _s21_big_decimal first = {.bits = {0, 3, 0, 0, 0, 0, 0}};
-  _s21_big_decimal second = {.bits = {0, 1, 0, 0, 0, 0, 0x80000000}};
-  _s21_big_decimal expected = {.bits = {0, 2, 0, 0, 0, 0, 0}};
+  _s21_big_decimal first = {.bits = {0, 3, 0, 0, 0, 0, 0, 0}};
+  _s21_big_decimal second = {.bits = {0, 1, 0, 0, 0, 0, 0, 0x80000000}};
+  _s21_big_decimal expected = {.bits = {0, 2, 0, 0, 0, 0, 0, 0}};
 
   _s21_big_decimal result = _s21_big_decimal_add(&first, &second);
 
@@ -59,9 +59,9 @@ START_TEST(positive_add_negative_still_positive) {
 END_TEST
 
 START_TEST(positive_add_negative_expect_negative) {
-  _s21_big_decimal first = {.bits = {0, 0, 3, 0, 0, 0, 0}};
-  _s21_big_decimal second = {.bits = {0, 0, 4, 0, 0, 0, 0x80000000}};
-  _s21_big_decimal expected = {.bits = {0, 0, 1, 0, 0, 0, 0x80000000}};
+  _s21_big_decimal first = {.bits = {0, 0, 3, 0, 0, 0, 0, 0}};
+  _s21_big_decimal second = {.bits = {0, 0, 4, 0, 0, 0, 0, 0x80000000}};
+  _s21_big_decimal expected = {.bits = {0, 0, 1, 0, 0, 0, 0, 0x80000000}};
 
   _s21_big_decimal result = _s21_big_decimal_add(&first, &second);
 
@@ -70,9 +70,9 @@ START_TEST(positive_add_negative_expect_negative) {
 END_TEST
 
 START_TEST(two_negative_expect_negative) {
-  _s21_big_decimal first = {.bits = {0xffffffff, 0, 0, 0, 0, 0, 0x80000000}};
-  _s21_big_decimal second = {.bits = {0, 0, 1, 0, 0, 0, 0x80000000}};
-  _s21_big_decimal expected = {.bits = {0xffffffff, 0, 1, 0, 0, 0, 0x80000000}};
+  _s21_big_decimal first = {.bits = {0xffffffff, 0, 0, 0, 0, 0, 0, 0x80000000}};
+  _s21_big_decimal second = {.bits = {0, 0, 1, 0, 0, 0, 0, 0x80000000}};
+  _s21_big_decimal expected = {{0xffffffff, 0, 1, 0, 0, 0, 0, 0x80000000}};
 
   _s21_big_decimal result = _s21_big_decimal_add(&first, &second);
 
@@ -81,9 +81,9 @@ START_TEST(two_negative_expect_negative) {
 END_TEST
 
 START_TEST(negative_add_positive_still_negative) {
-  _s21_big_decimal first = {.bits = {0, 1, 0, 0, 0, 0, 0x80000000}};
-  _s21_big_decimal second = {.bits = {0xffffffff, 0, 0, 0, 0, 0, 0}};
-  _s21_big_decimal expected = {.bits = {1, 0, 0, 0, 0, 0, 0x80000000}};
+  _s21_big_decimal first = {.bits = {0, 1, 0, 0, 0, 0, 0, 0x80000000}};
+  _s21_big_decimal second = {.bits = {0xffffffff, 0, 0, 0, 0, 0, 0, 0}};
+  _s21_big_decimal expected = {.bits = {1, 0, 0, 0, 0, 0, 0, 0x80000000}};
 
   _s21_big_decimal result = _s21_big_decimal_add(&first, &second);
 
@@ -92,9 +92,9 @@ START_TEST(negative_add_positive_still_negative) {
 END_TEST
 
 START_TEST(negative_add_positive_return_positive) {
-  _s21_big_decimal first = {.bits = {0, 1, 0, 0, 0, 1, 0x80000000}};
-  _s21_big_decimal second = {.bits = {0xffffffff, 1, 0, 0, 0, 1, 0}};
-  _s21_big_decimal expected = {.bits = {0xffffffff, 0, 0, 0, 0, 0, 0}};
+  _s21_big_decimal first = {.bits = {0, 1, 0, 0, 0, 1, 0, 0x80000000}};
+  _s21_big_decimal second = {.bits = {0xffffffff, 1, 0, 0, 0, 1, 0, 0}};
+  _s21_big_decimal expected = {.bits = {0xffffffff, 0, 0, 0, 0, 0, 0, 0}};
 
   _s21_big_decimal result = _s21_big_decimal_add(&first, &second);
 
@@ -104,11 +104,11 @@ END_TEST
 
 START_TEST(overflow_from_lower_bits_not_break_result) {
   _s21_big_decimal first = {.bits = {0xb1380000, 0xe43e9298, 0xffffffff,
-                                     0xa763ffff, 0xde0b6b3, 0, 0xa0000}};
+                                     0xa763ffff, 0xde0b6b3, 0, 0, 0xa0000}};
   _s21_big_decimal second = {.bits = {0xa7640000, 0xde0b6b3, 0x0000000,
-                                      0x00000000, 0x00000000, 0, 0xa0000}};
+                                      0x00000000, 0x00000000, 0, 0, 0xa0000}};
   _s21_big_decimal expected = {.bits = {0x589c0000, 0xf21f494c, 0xffffffff,
-                                        0xa763ffff, 0xde0b6b3, 0, 0xa0000}};
+                                        0xa763ffff, 0xde0b6b3, 0, 0, 0xa0000}};
 
   _s21_big_decimal result = _s21_big_decimal_add(&first, &second);
 

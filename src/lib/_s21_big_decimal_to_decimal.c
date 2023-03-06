@@ -27,7 +27,7 @@ uint8_t _s21_big_decimal_reduce_scale_once(_s21_big_decimal *big_ptr) {
   // 5. Return reminder. It's always less than 10 in binary representation
 
   _s21_big_decimal dividend = *big_ptr;
-  _s21_big_decimal divisor = {.bits = {10, 0, 0, 0, 0, 0, 0}};  // ten as big
+  _s21_big_decimal divisor = {.bits = {10, 0, 0, 0, 0, 0, 0, 0}};  // ten as big
   _s21_big_decimal result = S21_DECIMAL_NULL;
 
   int dividend_sign = _s21_big_decimal_get_sign(&dividend);
@@ -79,9 +79,9 @@ uint8_t _s21_big_decimal_reduce_scale(_s21_big_decimal *big_ptr,
   uint8_t reminder = 0;
   int scale = *scale_ptr;
 
-  // Checking scale > 28 is hack for division purpose. We store dividend
-  // scaled 10^29 (for precision purpose) and here we divide big decimal
-  // and get possible reminder.
+  // Checking scale > 28 is a `hack` for division precision purpose.
+  // We store dividend scaled 10^29 to access to possible reminder for
+  // while converting to plain decimal.
   while (_is_extra_bits_not_empty(big_ptr) || scale > 28) {
     scale--;
     reminder = _s21_big_decimal_reduce_scale_once(big_ptr);
@@ -113,7 +113,7 @@ int _s21_big_decimal_to_decimal(_s21_big_decimal const *big_decimal_ptr,
 
   // Bank rounding if required
   if (reminder > 5 || (reminder == 5 && big.bits[LOW] & 1)) {
-    _s21_big_decimal one_as_big = {{1, 0, 0, 0, 0, 0, big.bits[BIG_SCALE]}};
+    _s21_big_decimal one_as_big = {{1, 0, 0, 0, 0, 0, 0, big.bits[BIG_SCALE]}};
     big = _s21_big_decimal_add(&big, &one_as_big);
     reminder = _s21_big_decimal_reduce_scale(&big, &scale);
   }

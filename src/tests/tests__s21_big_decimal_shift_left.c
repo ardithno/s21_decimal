@@ -15,8 +15,8 @@ START_TEST(test_shift_left_zero_untouched) {
 END_TEST
 
 START_TEST(test_negative_zero_shift_left_zero_untouched) {
-  _s21_big_decimal big = {.bits = {0, 0, 0, 0, 0, 0, 0x80000000}};
-  _s21_big_decimal neg_null = {.bits = {0, 0, 0, 0, 0, 0, 0x80000000}};
+  _s21_big_decimal big = {.bits = {0, 0, 0, 0, 0, 0, 0, 0x80000000}};
+  _s21_big_decimal neg_null = {.bits = {0, 0, 0, 0, 0, 0, 0, 0x80000000}};
   int is_equal = -999;
 
   _s21_big_decimal_shift_left(&big);
@@ -27,8 +27,8 @@ START_TEST(test_negative_zero_shift_left_zero_untouched) {
 END_TEST
 
 START_TEST(test_shift_regular_case) {
-  _s21_big_decimal big = {.bits = {1, 0, 0, 0, 0, 0, 0}};
-  _s21_big_decimal expected = {.bits = {2, 0, 0, 0, 0, 0, 0}};
+  _s21_big_decimal big = {.bits = {1, 0, 0, 0, 0, 0, 0, 0}};
+  _s21_big_decimal expected = {.bits = {2, 0, 0, 0, 0, 0, 0, 0}};
   int is_equal = -999;
 
   _s21_big_decimal_shift_left(&big);
@@ -39,8 +39,8 @@ START_TEST(test_shift_regular_case) {
 END_TEST
 
 START_TEST(test_shifting_with_overflow) {
-  _s21_big_decimal big = {.bits = {1, 0, 0, 0, 0xffffffff, 0xffffffff, 0}};
-  _s21_big_decimal expected = {.bits = {2, 0, 0, 0, 0xfffffffe, 0xffffffff, 0}};
+  _s21_big_decimal big = {.bits = {1, 0, 0, 0, 0, 0xffffffff, 0xffffffff}};
+  _s21_big_decimal expected = {.bits = {2, 0, 0, 0, 0, 0xfffffffe, 0xffffffff}};
   int is_equal = -999;
 
   _s21_big_decimal_shift_left(&big);

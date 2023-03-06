@@ -7,7 +7,7 @@ int is_big_equal;
 
 void setup_test__s21_decimal_to_big_decimal(void) {
   // Set any not zero but predefined value to big_decimal
-  big_decimal = (_s21_big_decimal){{900, 900, 900, 900, 900, 900, 0}};
+  big_decimal = (_s21_big_decimal){{900, 900, 900, 900, 900, 900, 900, 0}};
 
   // Set equality to any non zero
   is_big_equal = 999;
@@ -32,7 +32,7 @@ END_TEST
 
 START_TEST(negative_zero_is_converted_to_negative_big_zero) {
   s21_decimal negative_zero = {{0, 0, 0, 0x80000000}};
-  _s21_big_decimal big_negative_zero = {{0, 0, 0, 0, 0, 0, 0x80000000}};
+  _s21_big_decimal big_negative_zero = {{0, 0, 0, 0, 0, 0, 0, 0x80000000}};
 
   _s21_decimal_to_big_decimal(&negative_zero, &big_decimal);
 
@@ -44,11 +44,15 @@ END_TEST
 START_TEST(max_decimal_converted_without_overflow) {
   s21_decimal max_decimal = {{0xffffffff, 0xffffffff, 0xffffffff, 0}};
   _s21_big_decimal converted_big_decimal = S21_DECIMAL_NULL;
-  int is_error = S21_TRUE;
+  _s21_big_decimal expected = {.bits = {0xf0000000, 0xc1dafd9e, 0xdfb031a1,
+                                        0xfffffff, 0x3e250261, 0x204fce5e, 0,
+                                        0}};
+  int is_equal = 99;
 
-  is_error = _s21_decimal_to_big_decimal(&max_decimal, &converted_big_decimal);
+  _s21_decimal_to_big_decimal(&max_decimal, &converted_big_decimal);
 
-  ck_assert_int_eq(is_error, S21_FALSE);
+  is_equal = _s21_big_decimal_compare_bits(&converted_big_decimal, &expected);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
 }
 END_TEST
 
