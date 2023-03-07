@@ -1,5 +1,7 @@
 [![Lint and test](https://github.com/ardithno/s21_decimal/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ardithno/s21_decimal/actions/workflows/ci.yml)
 
+[![codecov](https://codecov.io/gh/ardithno/s21_decimal/branch/main/graph/badge.svg?token=ZTJOPYHXP5)](https://codecov.io/gh/ardithno/s21_decimal)
+
 ## Что сделать
 
 ### Арифметические операторы
