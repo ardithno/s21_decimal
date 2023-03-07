@@ -16,6 +16,23 @@ int _is_extra_bits_not_empty(_s21_big_decimal *big_decimal_ptr) {
   return (num_empty_bits != BIG_SCALE - SCALE) ? S21_TRUE : S21_FALSE;
 }
 
+_s21_big_decimal _int_as_big_decimal(uint32_t x) {
+  _s21_big_decimal big = S21_DECIMAL_NULL;
+  big.bits[LOW] = x;
+  return big;
+}
+
+_s21_big_decimal _make_big_reminder(uint32_t x, int power_of_ten) {
+  _s21_big_decimal reminder = S21_DECIMAL_NULL;
+  reminder.bits[LOW] = x;
+
+  for (int i = 1; i <= power_of_ten; i++) {
+    _s21_big_decimal_multiply_ten(&reminder);
+  }
+
+  return reminder;
+}
+
 uint8_t _s21_big_decimal_reduce_scale_once(_s21_big_decimal *big_ptr) {
   _s21_big_decimal dividend = *big_ptr;
   _s21_big_decimal divisor = {.bits = {10, 0, 0, 0, 0, 0, 0, 0}};  // ten as big
@@ -42,48 +59,75 @@ s21_decimal _s21_convert_suitable_big_decimal_to_decimal(
   return result;
 }
 
-uint8_t _s21_big_decimal_reduce_scale(_s21_big_decimal *big_ptr,
-                                      int *scale_ptr) {
-  uint8_t reminder = 0;
+int _s21_big_decimal_reduce_scale(_s21_big_decimal *big_ptr, int *scale_ptr) {
+  _s21_big_decimal big_reminder = S21_DECIMAL_NULL;
+  _s21_big_decimal to_compare = {.bits = {5, 0, 0, 0, 0, 0, 0, 0}};
   int scale = *scale_ptr;
+  int iteration = 1;
 
   // Checking scale > 28 is a `hack` for division precision purpose.
-  // We store dividend scaled 10^29 to access to possible reminder for
-  // while converting to plain decimal.
+  // During division in could be 28
+  // We also save `reminder` is big decimal and `to_compare` (5 in scale of
+  // reminder) and return the 1 if reminder bigger than `to_compare` or 0
   while (_is_extra_bits_not_empty(big_ptr) || scale > 28) {
     scale--;
-    reminder = _s21_big_decimal_reduce_scale_once(big_ptr);
+    uint8_t temp = _s21_big_decimal_reduce_scale_once(big_ptr);
+
+    _s21_big_decimal big_temp_reminder = _make_big_reminder(temp, iteration++);
+    big_reminder = _s21_big_decimal_add(&big_reminder, &big_temp_reminder);
+    _s21_big_decimal_multiply_ten(&to_compare);
   }
 
   *scale_ptr = scale;
-  return reminder;
+
+  // Return 0 if reminder equals 0
+  // Return 1 if rounding required
+  // Return -1 if reminder not 0 but rounding not required
+  int result = 0;
+  _s21_big_decimal null = S21_DECIMAL_NULL;
+  int compare_result = 0;
+  int is_reminder_null = 0;
+
+  is_reminder_null = _s21_big_decimal_compare_bits(&big_reminder, &null);
+  compare_result = _s21_big_decimal_compare_bits(&big_reminder, &to_compare);
+
+  if (is_reminder_null == 0) {
+    result = 0;
+  } else if (compare_result == -1 ||
+             (big_ptr->bits[LOW] & 1 && compare_result == 0)) {
+    result = 1;
+  } else {
+    result = -1;
+  }
+
+  return result;
 }
 
 int _s21_big_decimal_to_decimal(_s21_big_decimal const *big_decimal_ptr,
                                 s21_decimal *decimal_ptr, int scale) {
   _s21_big_decimal big = *big_decimal_ptr;
-  uint8_t reminder = 0;
+  int conversion_result = 0;
   int desired_scale = _s21_big_decimal_get_scale(&big);
   int is_error = S21_FALSE;
 
-  reminder = _s21_big_decimal_reduce_scale(&big, &scale);
+  conversion_result = _s21_big_decimal_reduce_scale(&big, &scale);
+
+  // Bank rounding if required
+  if (conversion_result == 1) {
+    _s21_big_decimal one_as_big = {{1, 0, 0, 0, 0, 0, 0, big.bits[BIG_SCALE]}};
+    big = _s21_big_decimal_add(&big, &one_as_big);
+    conversion_result = _s21_big_decimal_reduce_scale(&big, &scale);
+  }
 
   // Remove trailing zeros from result but not more than `desired_scale`
-  for (uint8_t temp_reminder = reminder;
-       scale > desired_scale && temp_reminder == 0;) {
+  while (conversion_result == 0 && scale > desired_scale) {
     _s21_big_decimal temp_big = big;
-    temp_reminder = _s21_big_decimal_reduce_scale_once(&temp_big);
-    if (temp_reminder == 0) {
+    conversion_result = _s21_big_decimal_reduce_scale_once(&temp_big);
+
+    if (conversion_result == 0) {
       scale--;
       big = temp_big;
     }
-  }
-
-  // Bank rounding if required
-  if (reminder > 5 || (reminder == 5 && big.bits[LOW] & 1)) {
-    _s21_big_decimal one_as_big = {{1, 0, 0, 0, 0, 0, 0, big.bits[BIG_SCALE]}};
-    big = _s21_big_decimal_add(&big, &one_as_big);
-    reminder = _s21_big_decimal_reduce_scale(&big, &scale);
   }
 
   if (scale < 0) is_error = (_s21_big_decimal_get_sign(&big) == 0) ? 1 : 2;
