@@ -318,6 +318,23 @@ START_TEST(do_not_loose_precision_on_smaller_division) {
 }
 END_TEST
 
+START_TEST(bank_rounding_take_account_reminder_from_100) {
+  // 0.0000000000001 / 0.0000000000007 = 0.1428571428571428571428571429
+  s21_decimal x = {.bits = {0x1, 0, 0, 0xd0000}};
+  s21_decimal y = {.bits = {0x7, 0, 0, 0xd0000}};
+  s21_decimal expect = {{0x94924925, 0x5205497b, 0x49dafc4, 0x1c0000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  int is_equal = -999;
+  int is_error = -99;
+
+  is_error = s21_div(x, y, &result);
+
+  is_equal = _s21_decimal_compare_bits(&result, &expect);
+  ck_assert_int_eq(is_equal, 0);  // Zero means equal
+  ck_assert_int_eq(is_error, 0);
+}
+END_TEST
+
 TCase *tcase_s21_div(void) {
   TCase *tc;
 
@@ -337,6 +354,7 @@ TCase *tcase_s21_div(void) {
   tcase_add_test(tc, return_error_for_division_by_zero);
   tcase_add_test(tc, do_not_loose_precision_on_small_division);
   tcase_add_test(tc, do_not_loose_precision_on_smaller_division);
+  tcase_add_test(tc, bank_rounding_take_account_reminder_from_100);
 
   tcase_add_test(tc, possible_verter_test_1);
   tcase_add_test(tc, possible_verter_test_2);
