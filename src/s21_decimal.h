@@ -37,6 +37,7 @@ int s21_from_int_to_decimal(int src, s21_decimal *dst);
 int s21_get_sign(s21_decimal decimal);
 int s21_is_equal(s21_decimal first, s21_decimal second);
 int s21_is_zero(s21_decimal decimal);
+int s21_mod(s21_decimal dividend, s21_decimal divisor, s21_decimal *result_ptr);
 int s21_negate(s21_decimal value, s21_decimal *result);
 int s21_sub(s21_decimal first, s21_decimal second, s21_decimal *result_ptr);
 
