@@ -26,6 +26,7 @@ Suite *suite_s21_decimal(void) {
   suite_add_tcase(suite, tcase_s21_is_greater());
   suite_add_tcase(suite, tcase_s21_is_greater_or_equal());
   suite_add_tcase(suite, tcase_s21_from_decimal_to_float());
+  suite_add_tcase(suite, tcase_s21_set_power());
   
   return suite;
 }

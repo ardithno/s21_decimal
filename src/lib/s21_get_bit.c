@@ -15,5 +15,5 @@ int s21_get_bit(s21_decimal x, unsigned int position) {
     if (position >= 96 && position <= 127) {
         result = x.bits[3] & mask;
     }
-    return result;
+    return (result == 0) ? 0 : 1;
 }
