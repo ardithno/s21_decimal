@@ -124,6 +124,176 @@ START_TEST(positive_on_negative_return_positive) {
 }
 END_TEST
 
+START_TEST(positive_on_positive_that_should_do_overflow) {
+  // 70000000000000000000000000000 % 0.001 = 0.000
+  s21_decimal x = {.bits = {0x70000000, 0xb30310a7, 0xe22ea493, 0}};
+  s21_decimal y = {.bits = {1, 0, 0, 0x30000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal expected = {.bits = {0, 0, 0, 0x30000}};
+  int is_error = -999;
+  int is_equal = -999;
+
+  is_error = s21_mod(x, y, &result);
+
+  is_equal = _s21_decimal_compare_bits(&result, &expected);
+  ck_assert_int_eq(is_error, 1);  // Means positive overflow
+  ck_assert_int_eq(is_equal, 0);  // bits the same
+}
+END_TEST
+
+START_TEST(positive_on_negative_that_should_do_overflow) {
+  // 79228162514264337593543950335 % -0.4 = 0.000
+  s21_decimal x = {.bits = {0xffffffff, 0xffffffff, 0xffffffff, 0}};
+  s21_decimal y = {.bits = {0x4, 0, 0, 0x80010000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal expected = {.bits = {2, 0, 0, 0x10000}};
+  int is_error = -999;
+  int is_equal = -999;
+
+  is_error = s21_mod(x, y, &result);
+
+  is_equal = _s21_decimal_compare_bits(&result, &expected);
+  ck_assert_int_eq(is_error, 2);  // Means negative overflow
+  ck_assert_int_eq(is_equal, 0);  // bits the same
+}
+END_TEST
+
+START_TEST(negative_on_positive_that_should_do_overflow) {
+  // -79228162514264337593543950335 % 0.9 = 0.000
+  s21_decimal x = {.bits = {0xffffffff, 0xffffffff, 0xffffffff, 0x80000000}};
+  s21_decimal y = {.bits = {0x9, 0, 0, 0x10000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal expected = {.bits = {0, 0, 0, 0x10000}};
+  int is_error = -999;
+  int is_equal = -999;
+
+  is_error = s21_mod(x, y, &result);
+
+  is_equal = _s21_decimal_compare_bits(&result, &expected);
+  ck_assert_int_eq(is_error, 2);  // Means negative overflow
+  ck_assert_int_eq(is_equal, 0);  // bits the same
+}
+END_TEST
+
+START_TEST(negative_on_negative_that_should_do_overflow) {
+  // -79228162514264337593543950335 % -0.78 = 0.00
+  s21_decimal x = {.bits = {0xffffffff, 0xffffffff, 0xffffffff, 0x80000000}};
+  s21_decimal y = {.bits = {0x4e, 0, 0, 0x80020000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal expected = {.bits = {0, 0, 0, 0x20000}};
+  int is_error = -999;
+  int is_equal = -999;
+
+  is_error = s21_mod(x, y, &result);
+
+  is_equal = _s21_decimal_compare_bits(&result, &expected);
+  ck_assert_int_eq(is_error, 1);  // Means positive overflow
+  ck_assert_int_eq(is_equal, 0);  // bits the same
+}
+END_TEST
+
+START_TEST(division_on_plain_zero) {
+  // 32823.03 % 0 = ! division by zero exception
+  s21_decimal x = {.bits = {0x32157f, 0, 0, 0x20000}};
+  s21_decimal y = S21_DECIMAL_NULL;
+  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal expected = S21_DECIMAL_NULL;
+  int is_error = -999;
+  int is_equal = -999;
+
+  is_error = s21_mod(x, y, &result);
+
+  is_equal = _s21_decimal_compare_bits(&result, &expected);
+  ck_assert_int_eq(is_error, 3);  // Means null division
+  ck_assert_int_eq(is_equal, 0);  // bits the same
+}
+END_TEST
+
+START_TEST(division_on_negative_zero) {
+  // 0.03 % -0.0000 = ! division by zero exception
+  s21_decimal x = {.bits = {0x3, 0, 0, 0x20000}};
+  s21_decimal y = {.bits = {0, 0, 0, 0x80040000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal expected = S21_DECIMAL_NULL;
+  int is_error = -999;
+  int is_equal = -999;
+
+  is_error = s21_mod(x, y, &result);
+
+  is_equal = _s21_decimal_compare_bits(&result, &expected);
+  ck_assert_int_eq(is_error, 3);  // Means null division
+  ck_assert_int_eq(is_equal, 0);  // bits the same
+}
+END_TEST
+
+START_TEST(possible_verter_test_1) {
+  // 1844674407800451891.3 % -1844674407800451891.3 = 0
+  s21_decimal x = {.bits = {1, 1, 1, 0x10000}};
+  s21_decimal y = {.bits = {1, 1, 1, 0x80010000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal expected = {.bits = {0, 0, 0, 0x10000}};
+  int is_error = -999;
+  int is_equal = -999;
+
+  is_error = s21_mod(x, y, &result);
+
+  is_equal = _s21_decimal_compare_bits(&result, &expected);
+  ck_assert_int_eq(is_error, 0);
+  ck_assert_int_eq(is_equal, 0);  // bits the same
+}
+END_TEST
+
+START_TEST(possible_verter_test_2) {
+  // 1844674407800451891.3 % -1844674407.8004518913 = 0.0000000000
+  s21_decimal x = {.bits = {1, 1, 1, 0x80010000}};
+  s21_decimal y = {.bits = {1, 1, 1, 0x800a0000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal expected = {.bits = {0, 0, 0, 0x800a0000}};
+  int is_error = -999;
+  int is_equal = -999;
+
+  is_error = s21_mod(x, y, &result);
+
+  is_equal = _s21_decimal_compare_bits(&result, &expected);
+  ck_assert_int_eq(is_error, 0);
+  ck_assert_int_eq(is_equal, 0);  // bits the same
+}
+END_TEST
+
+START_TEST(possible_verter_test_3) {
+  // 5534023222971858944.1 % -1844674408.2299486211 = 126687489.0299486211
+  s21_decimal x = {.bits = {1, 2, 3, 0x80010000}};
+  s21_decimal y = {.bits = {3, 2, 1, 0x800a0000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal expected = {.bits = {0x2329b003, 0x1194d800, 0, 0xa0000}};
+  int is_error = -999;
+  int is_equal = -999;
+
+  is_error = s21_mod(x, y, &result);
+
+  is_equal = _s21_decimal_compare_bits(&result, &expected);
+  ck_assert_int_eq(is_error, 0);
+  ck_assert_int_eq(is_equal, 0);  // bits the same
+}
+END_TEST
+
+START_TEST(possible_verter_test_4) {
+  // 5534023222.9718589441 % -1844674408.2299486211 = 1844674406.5119617019
+  s21_decimal x = {.bits = {1, 2, 3, 0xa0000}};
+  s21_decimal y = {.bits = {3, 2, 1, 0x800a0000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal expected = {.bits = {0xfffffffb, 0xfffffffd, 0, 0xa0000}};
+  int is_error = -999;
+  int is_equal = -999;
+
+  is_error = s21_mod(x, y, &result);
+
+  is_equal = _s21_decimal_compare_bits(&result, &expected);
+  ck_assert_int_eq(is_error, 0);
+  ck_assert_int_eq(is_equal, 0);  // bits the same
+}
+END_TEST
+
 TCase *tcase_s21_mod(void) {
   TCase *tc;
 
@@ -136,6 +306,17 @@ TCase *tcase_s21_mod(void) {
   tcase_add_test(tc, regular_case_overflow_not_happen_with_big_values);
   tcase_add_test(tc, negative_on_positive_return_negative);
   tcase_add_test(tc, positive_on_negative_return_positive);
+  tcase_add_test(tc, positive_on_positive_that_should_do_overflow);
+  tcase_add_test(tc, positive_on_negative_that_should_do_overflow);
+  tcase_add_test(tc, negative_on_positive_that_should_do_overflow);
+  tcase_add_test(tc, negative_on_negative_that_should_do_overflow);
+  tcase_add_test(tc, division_on_plain_zero);
+  tcase_add_test(tc, division_on_negative_zero);
+
+  tcase_add_test(tc, possible_verter_test_1);
+  tcase_add_test(tc, possible_verter_test_2);
+  tcase_add_test(tc, possible_verter_test_3);
+  tcase_add_test(tc, possible_verter_test_4);
 
   return tc;
 }
