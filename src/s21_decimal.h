@@ -1,6 +1,7 @@
 #ifndef SRC_S21_DECIMAL_H_
 #define SRC_S21_DECIMAL_H_
 
+#include <math.h>
 #include <stddef.h>
 #include <stdint.h>
 
@@ -33,9 +34,17 @@ typedef struct s21_decimal {
 int s21_add(s21_decimal first, s21_decimal second, s21_decimal *result_ptr);
 int s21_div(s21_decimal divisor, s21_decimal dividend, s21_decimal *result_ptr);
 void s21_change_sign(s21_decimal *decimal);
+int s21_get_bit(s21_decimal x, unsigned int position);
 int s21_from_int_to_decimal(int src, s21_decimal *dst);
+int s21_from_decimal_to_float(s21_decimal src, float *dst);
 int s21_get_sign(s21_decimal decimal);
 int s21_is_equal(s21_decimal first, s21_decimal second);
+int s21_is_greater_or_equal(s21_decimal first, s21_decimal second);
+int s21_is_greater(s21_decimal first, s21_decimal second);
+int s21_is_less_or_equal(s21_decimal first, s21_decimal second);
+int s21_is_less(s21_decimal first, s21_decimal second);
+int s21_is_not_equal(s21_decimal first, s21_decimal second);
+void s21_set_power(s21_decimal *number, int pow);
 int s21_is_zero(s21_decimal decimal);
 int s21_mod(s21_decimal dividend, s21_decimal divisor, s21_decimal *result_ptr);
 int s21_negate(s21_decimal value, s21_decimal *result);
