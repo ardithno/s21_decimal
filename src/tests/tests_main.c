@@ -46,6 +46,7 @@ int main(void) {
 
   sr = srunner_create(suite_s21_decimal());
 
+  // We set NOFORK mode for debug ability and testing with valgrind
   srunner_set_fork_status(sr, CK_NOFORK);
 
   srunner_run_all(sr, CK_NORMAL);

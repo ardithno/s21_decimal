@@ -7,7 +7,7 @@ START_TEST(regular_positive_add_rounding_up) {
   s21_decimal x = {.bits = {0x5c71c2da, 0x1b9eabb9, 0xe5c5bb8, 0x1c0000}};
   s21_decimal y = {.bits = {0x64, 0, 0, 0}};
   s21_decimal expect = {.bits = {0x3c71c712, 0x676179db, 0x207491d8, 0x1a0000}};
-  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal result;
   int is_equal = -999;
   int is_error = -99;
 
@@ -24,7 +24,7 @@ START_TEST(regular_positive_not_rounding) {
   s21_decimal x = {.bits = {0x5c71c2da, 0x1b9eabb9, 0xe5c5bb8, 0x1c0000}};
   s21_decimal y = {.bits = {0xa, 0, 0, 0}};
   s21_decimal expect = {.bits = {0xcc71c6af, 0xda81ad26, 0x21bf7123, 0x1b0000}};
-  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal result;
   int is_equal = -999;
   int is_error = -99;
 
@@ -41,7 +41,7 @@ START_TEST(bank_rounding_if_not_enough_bits_for_whole_result) {
   s21_decimal x = {.bits = {0xffffffff, 0xffffffff, 0xffffffff, 0x1a0000}};
   s21_decimal y = {.bits = {0xa, 0, 0, 0}};
   s21_decimal expect = {.bits = {0x7d99999a, 0x7661a66c, 0x19ec516c, 0x190000}};
-  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal result;
   int is_equal = -999;
   int is_error = -99;
 
@@ -58,7 +58,7 @@ START_TEST(remove_unnecessary_trialing_zeros_from_result) {
   s21_decimal x = {.bits = {0xfffffffe, 0, 0, 0x1a0000}};
   s21_decimal y = {.bits = {0xa, 0, 0, 0}};
   s21_decimal expect = {.bits = {0xe7fffffe, 0x9fd0803d, 0x33b2e3c, 0x1a0000}};
-  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal result;
   int is_equal = -999;
   int is_error = -99;
 
@@ -74,7 +74,7 @@ START_TEST(overflow_happen) {
   // 79228162514264337593543950335 + 0.50 = overflow !!!
   s21_decimal x = {.bits = {0xffffffff, 0xffffffff, 0xffffffff, 0}};
   s21_decimal y = {.bits = {0x32, 0, 0, 0x20000}};
-  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal result;
   int is_error = -99;
 
   is_error = s21_add(x, y, &result);
@@ -88,7 +88,7 @@ START_TEST(overflow_not_happen) {
   s21_decimal x = {.bits = {0xffffffff, 0xffffffff, 0xffffffff, 0}};
   s21_decimal y = {.bits = {0x31, 0, 0, 0x20000}};
   s21_decimal expect = x;
-  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal result;
   int is_equal = -999;
   int is_error = -99;
 
@@ -105,7 +105,7 @@ START_TEST(regular_negative_add_rounding_up) {
   s21_decimal x = {.bits = {0x5c71c2da, 0x1b9eabb9, 0xe5c5bb8, 0x801c0000}};
   s21_decimal y = {.bits = {0x64, 0, 0, 0x80000000}};
   s21_decimal expect = {{0x3c71c712, 0x676179db, 0x207491d8, 0x801a0000}};
-  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal result;
   int is_equal = -999;
   int is_error = -99;
 
@@ -122,7 +122,7 @@ START_TEST(regular_negative_not_rounding) {
   s21_decimal x = {.bits = {0x5c71c2da, 0x1b9eabb9, 0xe5c5bb8, 0x801c0000}};
   s21_decimal y = {.bits = {0xa, 0, 0, 0x80000000}};
   s21_decimal expect = {{0xcc71c6af, 0xda81ad26, 0x21bf7123, 0x801b0000}};
-  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal result;
   int is_equal = -999;
   int is_error = -99;
 
@@ -139,7 +139,7 @@ START_TEST(save_trailing_zeros_if_possible) {
   s21_decimal x = {.bits = {0x7a11f, 0, 0, 0x60000}};
   s21_decimal y = {.bits = {0x1, 0, 0, 0x60000}};
   s21_decimal expect = {{0x7a120, 0, 0, 0x60000}};
-  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal result;
   int is_equal = -999;
   int is_error = -99;
 
@@ -155,7 +155,7 @@ START_TEST(negative_overflow_happen) {
   // -79228162514264337593543950335 + -0.50 = overflow !!!
   s21_decimal x = {.bits = {0xffffffff, 0xffffffff, 0xffffffff, 0x80000000}};
   s21_decimal y = {.bits = {0x32, 0, 0, 0x80020000}};
-  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal result;
   int is_error = -99;
 
   is_error = s21_add(x, y, &result);
@@ -169,7 +169,7 @@ START_TEST(negative_overflow_not_happen) {
   s21_decimal x = {.bits = {0xffffffff, 0xffffffff, 0xffffffff, 0x80000000}};
   s21_decimal y = {.bits = {0x31, 0, 0, 0x80020000}};
   s21_decimal expect = x;
-  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal result;
   int is_equal = -999;
   int is_error = -99;
 
@@ -186,7 +186,7 @@ START_TEST(adding_negative_and_positive_result_positive_null) {
   s21_decimal x = {.bits = {0x1, 0, 0, 0x80060000}};
   s21_decimal y = {.bits = {0x1, 0, 0, 0x60000}};
   s21_decimal expect = {.bits = {0, 0, 0, 0x60000}};
-  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal result;
   int is_equal = -999;
   int is_error = -99;
 
@@ -203,7 +203,7 @@ START_TEST(adding_positive_and_negative_result_positive_null) {
   s21_decimal x = {.bits = {0x1, 0, 0, 0x60000}};
   s21_decimal y = {.bits = {0x1, 0, 0, 0x80060000}};
   s21_decimal expect = {.bits = {0, 0, 0, 0x60000}};
-  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal result;
   int is_equal = -999;
   int is_error = -99;
 
@@ -219,7 +219,7 @@ START_TEST(possible_verter_test_1) {
   s21_decimal x = {.bits = {1, 1, 1, 65536}};
   s21_decimal y = {.bits = {1, 1, 1, 65536}};
   s21_decimal expect = {.bits = {2, 2, 2, 65536}};
-  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal result;
   int is_equal = -999;
   int is_error = -99;
 
@@ -234,7 +234,7 @@ START_TEST(possible_verter_test_2) {
   s21_decimal x = {.bits = {1, 1, 1, 65536}};
   s21_decimal y = {.bits = {1, 1, 1, 655360}};
   s21_decimal expect = {.bits = {0x3b9aca01, 0x3b9aca01, 0x3b9aca01, 0xa0000}};
-  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal result;
   int is_equal = -999;
   int is_error = -99;
 
@@ -249,7 +249,7 @@ START_TEST(possible_verter_test_3) {
   s21_decimal x = {.bits = {24, 1, 1, -2147418112}};
   s21_decimal y = {.bits = {1, 15, 1, 655360}};
   s21_decimal expect = {{0x9682efff, 0x3b9ac9f6, 0x3b9ac9ff, 0x800a0000}};
-  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal result;
   int is_equal = -999;
   int is_error = -99;
 
@@ -264,7 +264,7 @@ START_TEST(possible_verter_test_4) {
   s21_decimal x = {.bits = {1, 1, 1, 655360}};
   s21_decimal y = {.bits = {1, 1, 1, -2147418112}};
   s21_decimal expect = {{0x3b9ac9ff, 0x3b9ac9ff, 0x3b9ac9ff, 0x800a0000}};
-  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal result;
   int is_equal = -999;
   int is_error = -99;
 
