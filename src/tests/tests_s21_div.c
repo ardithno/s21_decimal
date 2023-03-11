@@ -2,15 +2,6 @@
 
 #include "../s21_decimal.h"
 
-int git_uint_bits_as_int(uint32_t x) {
-  union convert {
-    int int_value;
-    uint32_t uint_value;
-  } convert = {.uint_value = x};
-
-  return convert.int_value;
-}
-
 START_TEST(regular_positive_same_scale) {
   // 1 / 3 = 0.3333333333333333333333333333
   s21_decimal x = {.bits = {1, 0, 0, 0}};
