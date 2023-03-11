@@ -45,8 +45,8 @@ fmt:
 
 test: tests
 
-tests: CFLAGS += -g
-tests: LDFLAGS += --coverage
+tests: CFLAGS += -g -fsanitize=address
+tests: LDFLAGS += --coverage -fsanitize=address
 tests: $(TEST_EXEC)
 	@$^
 
