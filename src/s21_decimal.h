@@ -47,6 +47,7 @@ int s21_is_not_equal(s21_decimal first, s21_decimal second);
 void s21_set_power(s21_decimal *number, int pow);
 int s21_is_zero(s21_decimal decimal);
 int s21_mod(s21_decimal dividend, s21_decimal divisor, s21_decimal *result_ptr);
+int s21_mul(s21_decimal first, s21_decimal second, s21_decimal *result_ptr);
 int s21_negate(s21_decimal value, s21_decimal *result);
 int s21_sub(s21_decimal first, s21_decimal second, s21_decimal *result_ptr);
 
@@ -67,10 +68,14 @@ _s21_big_decimal _s21_big_decimal_add(const _s21_big_decimal *first_ptr,
 void _s21_big_decimal_change_sign(_s21_big_decimal *big_decimal_ptr);
 int _s21_big_decimal_compare_bits(_s21_big_decimal const *first,
                                   _s21_big_decimal const *second);
+_s21_big_decimal _s21_decimal_copy_to_big_decimal(s21_decimal decimal);
 int _s21_big_decimal_compare(_s21_big_decimal const *first,
                              _s21_big_decimal const *second);
 uint8_t _s21_big_decimal_get_scale(_s21_big_decimal const *x);
 int _s21_big_decimal_get_sign(_s21_big_decimal const *big_decimal);
+int _s21_big_decimal_mul(_s21_big_decimal const *first_ptr,
+                         _s21_big_decimal const *second_ptr,
+                         _s21_big_decimal *result_ptr);
 void _s21_big_decimal_multiply_ten(_s21_big_decimal *big_ptr);
 void _s21_big_decimal_set_bit(_s21_big_decimal *big_decimal, uint8_t bit_num);
 void _s21_big_decimal_shift_left(_s21_big_decimal *big_decimal_ptr);

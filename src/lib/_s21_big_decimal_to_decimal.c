@@ -65,10 +65,10 @@ int _s21_big_decimal_reduce_scale(_s21_big_decimal *big_ptr, int *scale_ptr) {
   int scale = *scale_ptr;
   int iteration = 1;
 
-  // Checking scale > 28 is a `hack` for division precision purpose.
-  // During division in could be 28
-  // We also save `reminder` is big decimal and `to_compare` (5 in scale of
-  // reminder) and return the 1 if reminder bigger than `to_compare` or 0
+  // Checking scale > 28 is a `hack` for precision of division purpose.
+  // We use scale 30 in division.
+  // We also save `reminder` as big decimal and comparing it with `to_compare`
+  // and return wether rounding is required or not
   while (_is_extra_bits_not_empty(big_ptr) || scale > 28) {
     scale--;
     uint8_t temp = _s21_big_decimal_reduce_scale_once(big_ptr);
