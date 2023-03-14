@@ -28,5 +28,6 @@ TCase *tcase_s21_is_greater();
 TCase *tcase_s21_is_greater_or_equal();
 TCase *tcase_s21_from_decimal_to_float();
 TCase *tcase_s21_set_power();
+TCase *tcase_s21_from_decimal_to_int();
 
 #endif /* SRC_TESTS_TEST_CASES_H_ */
