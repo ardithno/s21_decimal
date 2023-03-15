@@ -50,6 +50,9 @@ int s21_mod(s21_decimal dividend, s21_decimal divisor, s21_decimal *result_ptr);
 int s21_mul(s21_decimal first, s21_decimal second, s21_decimal *result_ptr);
 int s21_negate(s21_decimal value, s21_decimal *result);
 int s21_sub(s21_decimal first, s21_decimal second, s21_decimal *result_ptr);
+int s21_truncate(s21_decimal value, s21_decimal *result);
+int s21_floor(s21_decimal value, s21_decimal *result);
+int s21_round(s21_decimal value, s21_decimal *result);
 
 /* -----------------------------------------------------
 --------- Internal functions and definitions -----------
