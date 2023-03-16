@@ -5,6 +5,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <limits.h>
+#include <string.h>
 
 enum S21_BOOL {
   S21_FALSE,
@@ -18,6 +19,7 @@ enum S21_DECIMAL_BYTE_PURPOSE {
   SCALE,
 };
 
+#define MAX_DECIMAL 79228162514264337593543950335.
 #define DECIMAL_PARTS_LEN 4
 #define S21_DECIMAL_MAX_SCALE 28
 
@@ -53,6 +55,9 @@ int s21_mod(s21_decimal dividend, s21_decimal divisor, s21_decimal *result_ptr);
 int s21_mul(s21_decimal first, s21_decimal second, s21_decimal *result_ptr);
 int s21_negate(s21_decimal value, s21_decimal *result);
 int s21_sub(s21_decimal first, s21_decimal second, s21_decimal *result_ptr);
+int s21_get_exp(float a);
+void s21_left_shift(s21_decimal *decimal, int step);
+int s21_get_mantissa(float a);
 
 /* -----------------------------------------------------
 --------- Internal functions and definitions -----------

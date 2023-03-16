@@ -1,48 +1,47 @@
+#include <stdio.h>
+
 #include "../s21_decimal.h"
 
 int s21_from_float_to_decimal(float src, s21_decimal *dst) {
-    int scale = 0;
-    if ((fabs(src) >= 0 && fabs(src) < 1) || fabs(src) >= 1000000) {
-        scale = 7;
+  int error = 0;
+  for (int i = 0; i < 4; i++) {
+    dst->bits[i] = 0;
+  }
+
+  if (0 < fabs(src) && fabs(src) < 1e-28) {
+    error = 1;
+  } else if (0 < fabs(src) && fabs(src) < 1) {
+    int src_new = roundl(src * (pow(10, 7)));
+    s21_from_int_to_decimal(src_new, dst);
+    s21_set_power(dst, 7);
+  } else if (fabs(src) < 1000000) {
+    int sign = 0;
+    int scale = 6;
+    if (src < 0) {
+      sign = 1;
+      src = -src;
     }
-    if (fabs(src) < 10 && fabs(src) >=1 ) {
-        scale = 6;
+    double src_new = src;
+    while (!(src_new < 10)) {
+      src_new /= 10;
+      scale--;
+    }
+    src_new = roundl(src * pow(10, scale));
+    s21_from_int_to_decimal(src_new, dst);
+    s21_set_power(dst, scale);
+    if (sign == 1) {
+      s21_change_sign(dst);
     }
 
-    if (fabs(src) < 100 && fabs(src) >= 10) {
-        scale = 5;
-    }
-
-    if (fabs(src) < 1000 && fabs(src) >= 100) {
-        scale = 4;
-    }
-
-     if (fabs(src) < 10000 && fabs(src) >= 1000) {
-        scale = 3;
-    }
-
-     if (fabs(src) < 100000 && fabs(src) >= 10000) {
-        scale = 2;
-    }
-
-     if (fabs(src) < 1000000 && fabs(src) >= 100000) {
-        scale = 1;
-    }
-    int scale_2 = scale;
-    while (scale != 0) {
-        src *= 10;
-        scale--;
-    }
-    
-    src = round(src);
-    long double new_src = src;
-    // if (scale == 0) {
-        
-    // } else {
-    s21_from_int_to_decimal(new_src, dst);
-    //}
-
-    s21_set_power(dst, scale_2);
-
-    return 1;
-}   
+  } else if (fabs(src) < MAX_DECIMAL) {
+    int exponent = s21_get_exp(src);
+    int mantissa = s21_get_mantissa(src);
+    dst->bits[0] = mantissa;
+    S21_BIT_SET(dst->bits[0], 23);
+    s21_left_shift(dst, exponent - 23);
+    if (src < 0) s21_change_sign(dst);
+  } else {
+    error = 1;
+  }
+  return error;
+}
