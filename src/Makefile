@@ -78,6 +78,3 @@ clean:
 	rm -rf $(LIB) $(OBJ) $(OBJ_PROFILED)
 	rm -rf $(TEST_EXEC) $(TEST_OBJ) $(TEST_PROFILE_DATA)
 	rm -rf $(COVERAGE_FILE) $(COVERAGE_REPORT_DIR)
-
-debug: $(OBJ)
-	$(CC) -g print_bits.c $(OBJ)
