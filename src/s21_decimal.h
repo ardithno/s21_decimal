@@ -104,8 +104,4 @@ void _s21_decimal_to_big_decimal(s21_decimal const *decimal,
                                  _s21_big_decimal *big_decimal_ptr);
 uint8_t _s21_get_scale(s21_decimal const *decimal);
 
-// def me
-void print_bits(size_t size, void *value_ptr);
-// del ne
-
 #endif  // SRC_S21_DECIMAL_H_

@@ -16,12 +16,6 @@ int _is_extra_bits_not_empty(_s21_big_decimal *big_decimal_ptr) {
   return (num_empty_bits != BIG_SCALE - SCALE) ? S21_TRUE : S21_FALSE;
 }
 
-_s21_big_decimal _int_as_big_decimal(uint32_t x) {
-  _s21_big_decimal big = S21_DECIMAL_NULL;
-  big.bits[LOW] = x;
-  return big;
-}
-
 _s21_big_decimal _make_big_reminder(uint32_t x, int power_of_ten) {
   _s21_big_decimal reminder = S21_DECIMAL_NULL;
   reminder.bits[LOW] = x;
