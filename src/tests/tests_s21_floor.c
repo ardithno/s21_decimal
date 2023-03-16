@@ -210,6 +210,22 @@ START_TEST(test_floor_zero_whith_scale_minus) {
 }
 END_TEST
 
+START_TEST(test_floor_30000) {
+  // -3.0000 floor = -3
+  s21_decimal x = {.bits = {0x7530, 0, 0, 0x80040000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal expected = {.bits = {3, 0, 0, 0x80000000}};
+  int is_error = -999;
+  int is_equal = -999;
+
+  is_error = s21_floor(x, &result);
+
+  is_equal = _s21_decimal_compare_bits(&result, &expected);
+  ck_assert_int_eq(is_error, 0);
+  ck_assert_int_eq(is_equal, 0);  // bits the same
+}
+END_TEST
+
 TCase *tcase_s21_floor(void) {
   TCase *tc;
 
@@ -234,6 +250,8 @@ TCase *tcase_s21_floor(void) {
 
   tcase_add_test(tc, test_floor_zero_whith_scale);
   tcase_add_test(tc, test_floor_zero_whith_scale_minus);
+
+  tcase_add_test(tc, test_floor_30000);
 
   return tc;
 }

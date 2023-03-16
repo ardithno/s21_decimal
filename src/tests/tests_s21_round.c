@@ -258,6 +258,38 @@ START_TEST(test_round_zero_whith_scale_minus) {
 }
 END_TEST
 
+START_TEST(test_round_545001) {
+  // 54.5000000000000000001 round = 55
+  s21_decimal x = {.bits = {0x5be40001, 0x8b64f477, 0x1d, 0x130000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal expected = {.bits = {55, 0, 0, 0}};
+  int is_error = -999;
+  int is_equal = -999;
+
+  is_error = s21_round(x, &result);
+
+  is_equal = _s21_decimal_compare_bits(&result, &expected);
+  ck_assert_int_eq(is_error, 0);
+  ck_assert_int_eq(is_equal, 0);  // bits the same
+}
+END_TEST
+
+START_TEST(test_round_545000) {
+  // 54.5000000000000000000 round = 54
+  s21_decimal x = {.bits = {0x5be40000, 0x8b64f477, 0x1d, 0x130000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal expected = {.bits = {54, 0, 0, 0}};
+  int is_error = -999;
+  int is_equal = -999;
+
+  is_error = s21_round(x, &result);
+
+  is_equal = _s21_decimal_compare_bits(&result, &expected);
+  ck_assert_int_eq(is_error, 0);
+  ck_assert_int_eq(is_equal, 0);  // bits the same
+}
+END_TEST
+
 TCase *tcase_s21_round(void) {
   TCase *tc;
 
@@ -286,6 +318,9 @@ TCase *tcase_s21_round(void) {
 
   tcase_add_test(tc, test_round_zero_whith_scale);
   tcase_add_test(tc, test_round_zero_whith_scale_minus);
+
+  tcase_add_test(tc, test_round_545001);
+  tcase_add_test(tc, test_round_545000);
 
   return tc;
 }
