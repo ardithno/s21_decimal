@@ -28,6 +28,9 @@ TCase *tcase_s21_is_greater();
 TCase *tcase_s21_is_greater_or_equal();
 TCase *tcase_s21_from_decimal_to_float();
 TCase *tcase_s21_set_power();
+TCase *tcase_s21_truncate();
+TCase *tcase_s21_floor();
+TCase *tcase_s21_round();
 TCase *tcase_s21_from_decimal_to_int();
 TCase *tcase_s21_from_float_to_decimal();
 
