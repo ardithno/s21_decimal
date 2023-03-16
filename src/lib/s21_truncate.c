@@ -27,5 +27,5 @@ int s21_truncate(s21_decimal value, s21_decimal *result) {
 
   *result = current_value;
 
-  return (is_error != 0) ? 1: 0;
+  return (is_error != 0) ? 1 : 0;
 }

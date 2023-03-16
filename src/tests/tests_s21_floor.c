@@ -22,7 +22,8 @@ START_TEST(test_floor_no_scale_minus) {
   // -79228162514264337593543950335 floor = -79228162514264337593543950335
   s21_decimal x = {.bits = {0xffffffff, 0xffffffff, 0xffffffff, 0x80000000}};
   s21_decimal result = S21_DECIMAL_NULL;
-  s21_decimal expected = {.bits = {0xffffffff, 0xffffffff, 0xffffffff, 0x80000000}};
+  s21_decimal expected = {
+      .bits = {0xffffffff, 0xffffffff, 0xffffffff, 0x80000000}};
   int is_error = -999;
   int is_equal = -999;
 
