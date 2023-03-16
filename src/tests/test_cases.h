@@ -31,5 +31,7 @@ TCase *tcase_s21_set_power();
 TCase *tcase_s21_truncate();
 TCase *tcase_s21_floor();
 TCase *tcase_s21_round();
+TCase *tcase_s21_from_decimal_to_int();
+TCase *tcase_s21_from_float_to_decimal();
 
 #endif /* SRC_TESTS_TEST_CASES_H_ */

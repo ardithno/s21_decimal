@@ -39,6 +39,8 @@ Suite *suite_s21_decimal(void) {
   suite_add_tcase(suite, tcase_s21_truncate());
   suite_add_tcase(suite, tcase_s21_floor());
   suite_add_tcase(suite, tcase_s21_round());
+  suite_add_tcase(suite, tcase_s21_from_decimal_to_int());
+  suite_add_tcase(suite, tcase_s21_from_float_to_decimal());
 
   return suite;
 }
