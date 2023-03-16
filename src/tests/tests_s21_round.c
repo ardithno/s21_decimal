@@ -291,6 +291,22 @@ START_TEST(test_round_545000) {
 }
 END_TEST
 
+START_TEST(test_round_54999) {
+  // 54.499999999999999999999999999 round = 54
+  s21_decimal x = {.bits = {0x63ffffff, 0x5e34cf7, 0xb01957e8, 0x1b0000}};
+  s21_decimal result = S21_DECIMAL_NULL;
+  s21_decimal expected = {.bits = {54, 0, 0, 0}};
+  int is_error = -999;
+  int is_equal = -999;
+
+  is_error = s21_round(x, &result);
+
+  is_equal = _s21_decimal_compare_bits(&result, &expected);
+  ck_assert_int_eq(is_error, 0);
+  ck_assert_int_eq(is_equal, 0);  // bits the same
+}
+END_TEST
+
 TCase *tcase_s21_round(void) {
   TCase *tc;
 
@@ -322,6 +338,7 @@ TCase *tcase_s21_round(void) {
 
   tcase_add_test(tc, test_round_545001);
   tcase_add_test(tc, test_round_545000);
+  tcase_add_test(tc, test_round_54999);
 
   return tc;
 }
