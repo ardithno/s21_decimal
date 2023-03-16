@@ -3,7 +3,7 @@
 int s21_from_decimal_to_int(s21_decimal src, int *dst) {
   int error = 0;
   int scale = _s21_get_scale(&src);
-  double num = 0;
+  long double num = 0;
 
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 32; j++) {
