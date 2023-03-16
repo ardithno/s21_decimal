@@ -13,13 +13,21 @@ int s21_floor(s21_decimal value, s21_decimal *result) {
   currentValue.bits[SCALE] = 0;
 
   uint32_t scale = _s21_get_scale(&value);
+
+  // Обработка негативного кейса ++
+  uint32_t fl_scale = 0;
+  if (currentValue.bits[LOW] != 0 || currentValue.bits[MID] != 0 || currentValue.bits[HIGH] != 0) {
+    fl_scale = 1;
+  }
+  // Обработка негативного кейса --
+
   while (scale != 0) {
     s21_decimal temp = S21_DECIMAL_NULL;
     s21_decimal tenDecimal = {.bits = {10, 0, 0, 0}};
 
     is_error = s21_mod(currentValue, tenDecimal, &temp);
     if (scale == 1) {
-      if (signCheck == 1 && temp.bits[LOW] != 0) {
+      if (signCheck && fl_scale) {
         s21_add(currentValue, tenDecimal, &currentValue);
       }
     }
